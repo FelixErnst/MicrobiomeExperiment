@@ -5,8 +5,12 @@
 \alias{MicrobiomeFeatures-class}
 \title{Alias for mgFeatures class from metagenomeFeatures package}
 \usage{
-MicrobiomeFeatures(taxa = DataFrame(), tree = NULL, seq = NULL,
-  metadata = list())
+MicrobiomeFeatures(
+  taxa = DataFrame(),
+  tree = NULL,
+  seq = NULL,
+  metadata = list()
+)
 }
 \description{
 Alias for mgFeatures class from metagenomeFeatures package

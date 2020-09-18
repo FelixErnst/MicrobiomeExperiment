@@ -7,13 +7,6 @@
 \description{
 Package defining MicrobiomeExperiment class and methods
 }
-\examples{
-print("We have a package!")
-}
 \seealso{
-\link[MicrobiomeExperiment]{MicrobiomeExperiment-class}
+\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment} class
 }
-\author{
-Nathan D. Olson \email{nolson@umiacs.umd.edu}
-}
-\keyword{package}
