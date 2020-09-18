@@ -1,13 +1,12 @@
 ## Class constructor
 .MicrobiomeExperiment <- setClass("MicrobiomeExperiment",
-    contains="SummarizedExperiment",
+    contains="TreeSummarizedExperiment",
     representation(
         rowData="MicrobiomeFeatures"
     )
 )
 
-#'
-#' The MicrobiomeExperiment representation class
+#' The MicrobiomeExperiment class
 #'
 #' SummarizedExperiment-like class for microbiome data. rowData is
 #' a MicrobiomeFeatures object LINK so it includes: a taxonomy table
@@ -35,21 +34,20 @@
 #' colData=pd
 #' )
 #'
-#' @aliases MicrobiomeExperiment-class
+#' @name MicrobiomeExperiment-class
 #' @export
-MicrobiomeExperiment <- function(assays = SimpleList(),
-    rowData = MicrobiomeFeatures(), ...) {
+MicrobiomeExperiment <-
+    function(assays = SimpleList(),
+             rowData = MicrobiomeFeatures(), ...) {
 
-    if (is.data.frame(rowData) || is(rowData, "DataFrame"))
+    if (is.data.frame(rowData) || is(rowData, "DataFrame")){
         rowData <- as(rowData, "MicrobiomeFeatures")
+    }
 
-    SummarizedExperiment <-
-        if (!is(assays, "SummarizedExperiment"))
-            SummarizedExperiment(assays = assays, ...)
-        else
-            assays
-
-    .MicrobiomeExperiment(SummarizedExperiment, rowData = rowData)
+    if (!is(assays, "SummarizedExperiment")) {
+        se <- SummarizedExperiment(assays = assays, ...)
+    } else {
+        se <- assays
+    }
+    .MicrobiomeExperiment(se, rowData = rowData)
 }
-
-
