@@ -9,6 +9,10 @@
 #' @param rank a single character defining a taxonomic rank. Must be a value of
 #'   \code{taxonomicRanks()} function.
 #'
+#' @param onRankOnly \code{TRUE} or \code{FALSE}: Should information only from
+#'   the specified rank used or from ranks equal and above?.
+#'   (default: \code{onRankOnly = FALSE})
+#'
 #' @param na.rm \code{TRUE} or \code{FALSE}: Should taxa with an empty rank be
 #'   removed? Use it with caution, since result with NA on the selected rank
 #'   will be dropped. This setting can be tweaked by defining
@@ -58,8 +62,8 @@ NULL
 
 setGeneric("agglomerateByRank",
            signature = "x",
-           function(x, rank = taxonomyRanks(x)[1L], na.rm = TRUE,
-                    empty.fields = c(NA, "", " ", "\t", "-"),
+           function(x, rank = taxonomyRanks(x)[1L], onRankOnly = FALSE,
+                    na.rm = TRUE, empty.fields = c(NA, "", " ", "\t", "-"),
                     agglomerateTree = FALSE)
              standardGeneric("agglomerateByRank"))
 
@@ -68,11 +72,14 @@ setGeneric("agglomerateByRank",
 #' @aliases agglomerateByRank
 #' @export
 setMethod("agglomerateByRank", signature = c(x = "SummarizedExperiment"),
-  function(x, rank = taxonomyRanks(x)[1], na.rm = TRUE,
+  function(x, rank = taxonomyRanks(x)[1], onRankOnly = FALSE, na.rm = TRUE,
            empty.fields = c(NA, "", " ", "\t", "-"), agglomerateTree = FALSE){
     # input check
     if(!.is_non_empty_string(rank)){
       stop("'rank' must be an non empty single character value.", call. = FALSE)
+    }
+    if(!.is_a_bool(onRankOnly)){
+      stop("'onRankOnly' must be TRUE or FALSE.", call. = FALSE)
     }
     if(!.is_a_bool(na.rm)){
       stop("'na.rm' must be TRUE or FALSE.", call. = FALSE)
@@ -100,7 +107,7 @@ setMethod("agglomerateByRank", signature = c(x = "SummarizedExperiment"),
     }
 
     # get groups of taxonomy entries
-    tax_factors <- .get_tax_groups(x, col = col)
+    tax_factors <- .get_tax_groups(x, col = col, onRankOnly = onRankOnly)
 
     # merge taxa
     x <- mergeRows(x, f = tax_factors, mergeTree = agglomerateTree)

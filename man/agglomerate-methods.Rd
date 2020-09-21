@@ -11,6 +11,7 @@
 \S4method{agglomerateByRank}{SummarizedExperiment}(
   x,
   rank = taxonomyRanks(x)[1],
+  onRankOnly = FALSE,
   na.rm = TRUE,
   empty.fields = c(NA, "", " ", "\\t", "-"),
   agglomerateTree = FALSE
@@ -28,6 +29,10 @@
 
 \item{rank}{a single character defining a taxonomic rank. Must be a value of
 \code{taxonomicRanks()} function.}
+
+\item{onRankOnly}{\code{TRUE} or \code{FALSE}: Should information only from
+the specified rank used or from ranks equal and above?.
+(default: \code{onRankOnly = FALSE})}
 
 \item{na.rm}{\code{TRUE} or \code{FALSE}: Should taxa with an empty rank be
 removed? Use it with caution, since result with NA on the selected rank

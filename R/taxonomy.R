@@ -60,7 +60,7 @@ setGeneric("taxonomyRankEmpty",
 #' @rdname taxonomy-methods
 #' @aliases taxonomyRankEmpty
 #' @export
-setMethod("taxonomyRankEmpty", signature = c(x = "TreeSummarizedExperiment"),
+setMethod("taxonomyRankEmpty", signature = c(x = "SummarizedExperiment"),
           function(x, rank = taxonomyRanks(x)[1],
                    empty.fields = c(NA, "", " ", "\t", "-")){
             # input check
@@ -92,14 +92,18 @@ setMethod("taxonomyRankEmpty", signature = c(x = "TreeSummarizedExperiment"),
   .get_tax_cols(colnames(rowData(x)))
 }
 
-.get_tax_groups <- function(x, col){
+.get_tax_groups <- function(x, col, onRankOnly = FALSE){
   tax_cols <- .get_tax_cols_from_se(x)
   tax_col_n <- seq_along(tax_cols)
   if(length(tax_col_n) < col){
     stop(".")
   }
-  groups <- rowData(x)[,tax_cols[tax_col_n <= col],drop=FALSE]
-  groups <- apply(groups,1L,paste,collapse="_")
+  if(onRankOnly){
+    groups <- rowData(x)[,tax_cols[tax_col_n == col],drop=TRUE]
+  } else {
+    groups <- rowData(x)[,tax_cols[tax_col_n <= col],drop=FALSE]
+    groups <- apply(groups,1L,paste,collapse="_")
+  }
   factor(groups, unique(groups))
 }
 
@@ -140,6 +144,12 @@ setMethod("taxonomyRankEmpty", signature = c(x = "TreeSummarizedExperiment"),
                   unlist(ans, use.names = FALSE))
   } else {
     ans <- unlist(ans, use.names = FALSE)
+  }
+  # last resort - this happens, if annotation data contains ambiguous data
+  # sometimes labeled as "circles"
+  if(anyDuplicated(ans)){
+    dup <- which(ans %in% ans[which(duplicated(ans))])
+    ans[dup] <- make.unique(ans[dup], sep = "_")
   }
   ans
 }

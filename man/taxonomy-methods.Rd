@@ -4,17 +4,19 @@
 \alias{taxonomy-methods}
 \alias{taxonomyRanks,SummarizedExperiment-method}
 \alias{taxonomicRanks}
-\alias{taxonomyRankEmpty,TreeSummarizedExperiment-method}
+\alias{taxonomyRankEmpty,SummarizedExperiment-method}
 \alias{taxonomyRankEmpty}
 \title{Taxonomy related functions}
 \usage{
 \S4method{taxonomyRanks}{SummarizedExperiment}(x)
 
-\S4method{taxonomyRankEmpty}{TreeSummarizedExperiment}(
+\S4method{taxonomyRankEmpty}{SummarizedExperiment}(
   x,
   rank = taxonomyRanks(x)[1],
   empty.fields = c(NA, "", " ", "\\t", "-")
 )
+
+\S4method{checkTaxonomy}{SummarizedExperiment}(x, checkLTChar = TRUE)
 }
 \arguments{
 \item{x}{\code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}}
