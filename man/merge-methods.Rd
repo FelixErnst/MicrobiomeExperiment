@@ -2,11 +2,17 @@
 % Please edit documentation in R/merge.R
 \name{merge-methods}
 \alias{merge-methods}
+\alias{mergeRows}
 \alias{mergeRows,SummarizedExperiment-method}
+\alias{mergeCols}
 \alias{mergeCols,SummarizedExperiment-method}
 \title{Merge a subset of the species in \code{x} into one species/taxa/OTU.}
 \usage{
+mergeRows(x, f, ...)
+
 \S4method{mergeRows}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE)
+
+mergeCols(x, f, ...)
 
 \S4method{mergeCols}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE)
 }

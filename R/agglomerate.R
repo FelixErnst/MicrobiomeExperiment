@@ -9,6 +9,9 @@
 #' @param rank a single character defining a taxonomic rank. Must be a value of
 #'   \code{taxonomicRanks()} function.
 #'
+#' @param ranks a character vector defining taxonomic ranks. All values must be
+#'   values of \code{taxonomicRanks()} function.
+#'
 #' @param onRankOnly \code{TRUE} or \code{FALSE}: Should information only from
 #'   the specified rank used or from ranks equal and above?.
 #'   (default: \code{onRankOnly = FALSE})
@@ -25,6 +28,9 @@
 #' @param agglomerateTree \code{TRUE} or \code{FALSE}: should to
 #'   \code{rowTree()} also be agglomerated? (Default:
 #'   \code{agglomerateTree = FALSE})
+#'
+#' @param rankThreshold a single numeric value to define threshold for grouping
+#'   values in "Others".
 #'
 #' @return A taxonomically-agglomerated, optionally-pruned object of the same
 #'   class \code{x}.
@@ -70,6 +76,9 @@ setGeneric("agglomerateByRank",
 
 #' @rdname agglomerate-methods
 #' @aliases agglomerateByRank
+#'
+#' @importFrom SummarizedExperiment rowData
+#'
 #' @export
 setMethod("agglomerateByRank", signature = c(x = "SummarizedExperiment"),
   function(x, rank = taxonomyRanks(x)[1], onRankOnly = FALSE, na.rm = TRUE,
@@ -136,6 +145,11 @@ setGeneric("getAgglomerateData",
 
 #' @rdname agglomerate-methods
 #' @aliases getAgglomerateData
+#'
+#' @importFrom SummarizedExperiment rowData
+#' @importFrom dplyr %>% contains
+#' @importFrom tidyr pivot_longer
+#'
 #' @export
 setMethod("getAgglomerateData", signature = c(x = "TreeSummarizedExperiment"),
   function(x, ranks = taxonomyRanks(x)[1:2],
@@ -171,6 +185,10 @@ setMethod("getAgglomerateData", signature = c(x = "TreeSummarizedExperiment"),
   }
 )
 
+#' @importFrom SummarizedExperiment colData assays
+#' @importFrom dplyr %>% everything mutate
+#' @importFrom tibble as_tibble
+#' @importFrom rlang :=
 .get_agglomerate_data <- function(x, ranks){
   ans <- assays(x)$relabundance %>%
     as_tibble()
@@ -183,10 +201,12 @@ setMethod("getAgglomerateData", signature = c(x = "TreeSummarizedExperiment"),
   ans
 }
 
+#' @importFrom dplyr %>% select contains
 .check_for_rank_threshold <- function(data, .rank, ranks, rankThreshold){
   mean(colSums(data %>% select(!contains(ranks)))) >= rankThreshold
 }
 
+#' @importFrom dplyr %>% group_by group_map across group_keys pull
 .blank_empty_data <- function(data, ranks, empty.fields, rankThresholds){
   data[,ranks] <- lapply(data[,ranks],
                          function(d){

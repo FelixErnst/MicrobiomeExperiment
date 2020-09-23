@@ -7,6 +7,8 @@
 #'
 #' @name relabundance
 #'
+#' @importFrom SummarizedExperiment assays assays<-
+#'
 #' @export
 #'
 #' @examples
@@ -15,10 +17,13 @@
 #' relabundance(GlobalPatterns)
 NULL
 
+#' @rdname relabundance
 setGeneric("relabundance", signature = c("x"),
-           function(x,...) standardGeneric("relabundance"))
+           function(x, ...) standardGeneric("relabundance"))
+#' @rdname relabundance
 setGeneric("relabundance<-", signature = c("x"),
-           function(x, value, ...) standardGeneric("relabundance<-"))
+           function(x, value) standardGeneric("relabundance<-"))
+#' @rdname relabundance
 setGeneric("relAbundanceCounts", signature = c("x"),
            function(x, abund_values = "counts", name)
                standardGeneric("relAbundanceCounts"))

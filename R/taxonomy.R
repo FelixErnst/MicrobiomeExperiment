@@ -1,3 +1,7 @@
+
+TAXONOMY_RANKS <- c("domain","kingdom","phylum","class","order","family",
+                    "genus","species")
+
 #' @name taxonomy-methods
 #'
 #' @title Taxonomy related functions
@@ -11,6 +15,16 @@
 #' \code{taxonomyRankEmpty} checks, if a selected rank is empty of information.
 #'
 #' @param x \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}
+#'
+#' @param rank a single character defining a taxonomic rank. Must be a value of
+#'   \code{taxonomicRanks()} function.
+#'
+#' @param empty.fields a \code{character} value defining, which values should be
+#'   regarded as empty. (Default: \code{c(NA, "", " ", "\t")}). They will be
+#'   removed if \code{na.rm = TRUE} before agglomeration.
+#'
+#' @param checkWrap \code{TRUE} or \code{FALSE}: Should the wrapping characters
+#'   be removed, before checking? (default: \code{checkWrap = TRUE})
 #'
 #' @return
 #' \itemize{
@@ -37,12 +51,16 @@
 #' merged
 NULL
 
+#' @rdname taxonomy-methods
 setGeneric("taxonomyRanks", signature = c("x"),
            function(x)
              standardGeneric("taxonomyRanks"))
 
 #' @rdname taxonomy-methods
 #' @aliases taxonomicRanks
+#'
+#' @importFrom SummarizedExperiment rowData
+#'
 #' @export
 setMethod("taxonomyRanks", signature = c(x = "SummarizedExperiment"),
           function(x){
@@ -51,6 +69,7 @@ setMethod("taxonomyRanks", signature = c(x = "SummarizedExperiment"),
           }
 )
 
+#' @rdname taxonomy-methods
 setGeneric("taxonomyRankEmpty",
            signature = "x",
            function(x, rank = taxonomyRanks(x)[1L],
@@ -59,6 +78,9 @@ setGeneric("taxonomyRankEmpty",
 
 #' @rdname taxonomy-methods
 #' @aliases taxonomyRankEmpty
+#'
+#' @importFrom SummarizedExperiment rowData
+#'
 #' @export
 setMethod("taxonomyRankEmpty", signature = c(x = "SummarizedExperiment"),
           function(x, rank = taxonomyRanks(x)[1],
@@ -77,6 +99,21 @@ setMethod("taxonomyRankEmpty", signature = c(x = "SummarizedExperiment"),
           }
 )
 
+#' @rdname taxonomy-methods
+setGeneric("checkTaxonomy",
+           signature = "x",
+           function(x, ...)
+             standardGeneric("checkTaxonomy"))
+
+#' @rdname taxonomy-methods
+#' @aliases checkTaxonomy
+#' @export
+setMethod("checkTaxonomy", signature = c(x = "SummarizedExperiment"),
+          function(x, checkWrap = TRUE){
+
+          }
+)
+
 ################################################################################
 # helper functions
 
@@ -88,10 +125,12 @@ setMethod("taxonomyRankEmpty", signature = c(x = "SummarizedExperiment"),
   which(.get_tax_cols_logical(x))
 }
 
+#' @importFrom SummarizedExperiment rowData
 .get_tax_cols_from_se <- function(x){
   .get_tax_cols(colnames(rowData(x)))
 }
 
+#' @importFrom SummarizedExperiment rowData
 .get_tax_groups <- function(x, col, onRankOnly = FALSE){
   tax_cols <- .get_tax_cols_from_se(x)
   tax_col_n <- seq_along(tax_cols)

@@ -2,52 +2,84 @@
 .MicrobiomeExperiment <- setClass("MicrobiomeExperiment",
     contains="TreeSummarizedExperiment",
     representation(
-        rowData="MicrobiomeFeatures"
+        microbiomeData = "MicrobiomeFeatures"
     )
 )
 
 #' The MicrobiomeExperiment class
 #'
-#' SummarizedExperiment-like class for microbiome data. rowData is
+#' SummarizedExperiment-like class for microbiome data. microbiomeData is
 #' a MicrobiomeFeatures object LINK so it includes: a taxonomy table
 #' (DataFrame), #' optional phylogentic tree (phylo object), and a sequence
 #' database.
 #'
 #' It supports (most) of the interface to phyloseq objects
 #'
+#' @name MicrobiomeExperiment-class
+#'
 #' @include MicrobiomeFeatures-class.R
+#'
+#' @importFrom S4Vectors SimpleList
+#' @importFrom SummarizedExperiment SummarizedExperiment
+#' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
+#'
 #' @importClassesFrom metagenomeFeatures mgFeatures
 #' @importClassesFrom SummarizedExperiment SummarizedExperiment
+#' @importClassesFrom TreeSummarizedExperiment TreeSummarizedExperiment
 #'
 #' @examples
-#'
 #' library(metagenomeFeatures)
 #' data(mock_mgF)
 #'
 #' sampleNames <- letters[1:4]
 #' pd <- DataFrame(a=letters[1:4], b=1:4)
 #' numcounts <- nrow(mock_mgF) * 4
-#' counts <- matrix(sample(1:1000,numcounts,replace=TRUE), nr=nrow(mock_mgF), nc=4)
+#' counts <- matrix(sample(1:1000, numcounts, replace=TRUE),
+#'                  nr = nrow(mock_mgF), nc = 4)
 #'
-#' MicrobiomeExperiment(assays=SimpleList(counts=counts),
-#' rowData=mock_mgF,
-#' colData=pd
-#' )
-#'
-#' @name MicrobiomeExperiment-class
+#' MicrobiomeExperiment(assays = SimpleList(counts = counts),
+#'                      rowData = mock_mgF,
+#'                      colData = pd )
+NULL
+
+#' @rdname MicrobiomeExperiment-class
 #' @export
-MicrobiomeExperiment <-
-    function(assays = SimpleList(),
-             rowData = MicrobiomeFeatures(), ...) {
-
-    if (is.data.frame(rowData) || is(rowData, "DataFrame")){
-        rowData <- as(rowData, "MicrobiomeFeatures")
-    }
-
-    if (!is(assays, "SummarizedExperiment")) {
-        se <- SummarizedExperiment(assays = assays, ...)
-    } else {
-        se <- assays
-    }
-    .MicrobiomeExperiment(se, rowData = rowData)
+MicrobiomeExperiment <- function(..., microbiomeData = list()) {
+    tse <- TreeSummarizedExperiment(...)
+    .tse_to_me(tse, microbiomeData)
 }
+
+.tse_to_me <- function(tse, microbiomeData = MicrobiomeFeatures()){
+    out <- new("MicrobiomeExperiment", tse)
+    microbiomeData(out) <- microbiomeData
+    out
+}
+
+
+#' @rdname MicrobiomeExperiment-class
+#' @export
+setGeneric("microbiomeData", signature = c("x"),
+           function(x) standardGeneric("microbiomeData"))
+#' @rdname MicrobiomeExperiment-class
+#' @export
+setMethod("microbiomeData", signature = c(x = "MicrobiomeExperiment"),
+    function(x){
+        x@microbiomeData
+    }
+)
+
+#' @rdname MicrobiomeExperiment-class
+#' @export
+setGeneric("microbiomeData<-", signature = c("x"),
+           function(x, value) standardGeneric("microbiomeData<-"))
+#' @rdname MicrobiomeExperiment-class
+#' @export
+setReplaceMethod("microbiomeData", signature = c(x = "MicrobiomeExperiment"),
+    function(x, value){
+        if(!is(value,"MicrobiomeFeatures")){
+          value <- as(value,"MicrobiomeFeatures")
+        }
+        x@microbiomeData <- value
+        x
+    }
+)

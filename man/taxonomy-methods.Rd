@@ -2,13 +2,24 @@
 % Please edit documentation in R/taxonomy.R
 \name{taxonomy-methods}
 \alias{taxonomy-methods}
+\alias{taxonomyRanks}
 \alias{taxonomyRanks,SummarizedExperiment-method}
 \alias{taxonomicRanks}
-\alias{taxonomyRankEmpty,SummarizedExperiment-method}
 \alias{taxonomyRankEmpty}
+\alias{taxonomyRankEmpty,SummarizedExperiment-method}
+\alias{checkTaxonomy}
+\alias{checkTaxonomy,SummarizedExperiment-method}
 \title{Taxonomy related functions}
 \usage{
+taxonomyRanks(x)
+
 \S4method{taxonomyRanks}{SummarizedExperiment}(x)
+
+taxonomyRankEmpty(
+  x,
+  rank = taxonomyRanks(x)[1L],
+  empty.fields = c(NA, "", " ", "\\t", "-")
+)
 
 \S4method{taxonomyRankEmpty}{SummarizedExperiment}(
   x,
@@ -16,10 +27,22 @@
   empty.fields = c(NA, "", " ", "\\t", "-")
 )
 
-\S4method{checkTaxonomy}{SummarizedExperiment}(x, checkLTChar = TRUE)
+checkTaxonomy(x, ...)
+
+\S4method{checkTaxonomy}{SummarizedExperiment}(x, checkWrap = TRUE)
 }
 \arguments{
 \item{x}{\code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}}
+
+\item{rank}{a single character defining a taxonomic rank. Must be a value of
+\code{taxonomicRanks()} function.}
+
+\item{empty.fields}{a \code{character} value defining, which values should be
+regarded as empty. (Default: \code{c(NA, "", " ", "\t")}). They will be
+removed if \code{na.rm = TRUE} before agglomeration.}
+
+\item{checkWrap}{\code{TRUE} or \code{FALSE}: Should the wrapping characters
+be removed, before checking? (default: \code{checkWrap = TRUE})}
 }
 \value{
 \itemize{

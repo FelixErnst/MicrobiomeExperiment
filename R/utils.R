@@ -59,7 +59,9 @@
   }
 }
 
-.check_abund_values <- function(abund_values, x, name = .get_name_in_parent(abund_values)){
+#' @importFrom SummarizedExperiment assays
+.check_abund_values <- function(abund_values, x,
+                                name = .get_name_in_parent(abund_values)){
   if(!.is_non_empty_string(abund_values)){
     stop("'",name,"' must be a single non-empty character value.",
          call. = FALSE)
@@ -72,21 +74,23 @@
 .check_relative_abundance <- function(data){
   if(sum(colSums(data)) != ncol(data)){
     warning("The selected assay probably does not contain relative abundance ",
-            "data.", call. = FALSE)    
+            "data.", call. = FALSE)
   }
 }
 
+#' @importFrom SummarizedExperiment colData
 .check_var <- function(var, x, name = .get_name_in_parent(var)){
-  if(missing(var) 
-     || !.is_non_empty_character(var) 
+  if(missing(var)
+     || !.is_non_empty_character(var)
      || !all(var %in% colnames(colData(x)))){
     stop("'",name,"' must contain valid colnames of colData(x)", call. = FALSE)
   }
 }
 
+#' @importFrom SummarizedExperiment colData
 .check_single_var <- function(var, x, name = .get_name_in_parent(var)){
-  if(missing(var) 
-     || !.is_non_empty_string(var) 
+  if(missing(var)
+     || !.is_non_empty_string(var)
      || !(var %in% colnames(colData(x)))){
     stop("'",name,"' must be a single colname of colData(x)", call. = FALSE)
   }
@@ -94,7 +98,7 @@
 
 .check_var_data <- function(data, name){
   if(is.character(data) && !is.factor(data)){
-    warning("variable data '",name,"' is a character and not a factor. 
+    warning("variable data '",name,"' is a character and not a factor.
             Converting ...\n",
             call. = FALSE)
     data <- as.factor(data)
@@ -110,8 +114,8 @@
 
 .check_base_var <- function(base_var, var_data){
   if(length(base_var) > 1L ||
-     (!is.integer(base_var) 
-      && (!is.numeric(base_var) || base_var != as.integer(base_var)) 
+     (!is.integer(base_var)
+      && (!is.numeric(base_var) || base_var != as.integer(base_var))
       && !(base_var %in% levels(var_data)))){
     stop("'base_var' must be a single integer or valid name for a level of ",
          "the select 'var'", call. = FALSE)
@@ -129,6 +133,7 @@
   }
 }
 
+#' @importFrom SummarizedExperiment rowData
 .check_for_taxonomic_data_order <- function(x){
   ranks <- colnames(rowData(x))
   f <- tolower(ranks) %in% TAXONOMY_RANKS

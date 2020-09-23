@@ -1,10 +1,12 @@
 #' Coerce phyloseq object
 #'
-#' @param obj
+#' @param obj a \code{phyloseq} object
 #'
 #' @return An object of class MicrobiomeExperiment
 #'
 #' @importFrom phyloseq phyloseq
+#' @importFrom S4Vectors SimpleList DataFrame
+#' @importFrom SummarizedExperiment colData
 #' @importClassesFrom phyloseq phyloseq
 #'
 #' @export
@@ -19,13 +21,13 @@
 #'     as(esophagus, "MicrobiomeExperiment")
 #' }
 makeMicrobiomeExperimentFromphyloseq <- function(obj) {
-    if(!is(obj,"biom")){
+    if(!is(obj,"phyloseq")){
         stop("'obj' must be a 'phyloseq' object")
     }
     otu <- obj@otu_table@.Data
     taxa <- obj@tax_table@.Data
     if(is.null(taxa)){
-        taxa <- matrix(nrow=nrow(otu), ncol=0)
+        taxa <- matrix(nrow = nrow(otu), ncol=0)
         rownames(taxa) <- rownames(otu)
     }
     if(!is.null(obj@phy_tree)){
@@ -33,7 +35,7 @@ makeMicrobiomeExperimentFromphyloseq <- function(obj) {
     } else {
         tree <- NULL
     }
-    mf <- MicrobiomeFeatures(taxa=taxa, tree=tree)
+    mf <- MicrobiomeFeatures(taxa = taxa, tree = tree)
     if (!is.null(obj@refseq)) {
         mf@refDbSeq <- obj@refseq
     }

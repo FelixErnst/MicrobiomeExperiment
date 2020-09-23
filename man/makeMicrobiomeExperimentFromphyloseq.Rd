@@ -7,7 +7,7 @@
 makeMicrobiomeExperimentFromphyloseq(obj)
 }
 \arguments{
-\item{obj}{}
+\item{obj}{a \code{phyloseq} object}
 }
 \value{
 An object of class MicrobiomeExperiment

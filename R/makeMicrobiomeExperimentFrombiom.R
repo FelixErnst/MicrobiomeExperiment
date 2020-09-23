@@ -12,7 +12,7 @@
 #' @name biom-load
 #'
 #' @examples
-#' if(requireNameSpace("biomformat")) {
+#' if(requireNamespace("biomformat")) {
 #'   # load from file
 #'   rich_dense_file  = system.file("extdata", "rich_dense_otu_table.biom",
 #'                                  package = "biomformat")
@@ -39,17 +39,20 @@ loadFromBiom <- function(file) {
 #'
 #' @param obj object of type \code{\link[biomformat:read_biom]{biom}}
 #'
+#' @importFrom biomformat biom_data sample_metadata
+#'   observation_metadata
+#'
 #' @export
 makeMicrobiomeExperimentFromBiom <- function(obj){
     if(!is(obj,"biom")){
         stop("'obj' must be a 'biom' object")
     }
-    counts <- as(biom_data(obj), "matrix")
-    sample_data <- sample_metadata(obj)
-    feature_data <- observation_metadata(obj)
+    counts <- as(biomformat::biom_data(obj), "matrix")
+    sample_data <- biomformat::sample_metadata(obj)
+    feature_data <- biomformat::observation_metadata(obj)
 
-    MicrobiomeExperiment(assays=list(counts=counts), colData=sample_data,
-                         rowData=MicrobiomeFeatures(taxa=feature_data))
+    MicrobiomeExperiment(assays = list(counts = counts), colData = sample_data,
+                         rowData = MicrobiomeFeatures(taxa = feature_data))
 }
 
 setAs(from="biom", to="MicrobiomeExperiment", function(from) {

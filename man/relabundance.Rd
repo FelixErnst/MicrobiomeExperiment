@@ -2,11 +2,19 @@
 % Please edit documentation in R/relabundance.R
 \name{relabundance}
 \alias{relabundance}
+\alias{relabundance<-}
+\alias{relAbundanceCounts}
 \alias{relabundance,TreeSummarizedExperiment-method}
 \alias{relabundance<-,TreeSummarizedExperiment-method}
 \alias{relAbundanceCounts,TreeSummarizedExperiment-method}
 \title{Getter / setter for relative abundance data}
 \usage{
+relabundance(x, ...)
+
+relabundance(x) <- value
+
+relAbundanceCounts(x, abund_values = "counts", name)
+
 \S4method{relabundance}{TreeSummarizedExperiment}(x)
 
 \S4method{relabundance}{TreeSummarizedExperiment}(x) <- value

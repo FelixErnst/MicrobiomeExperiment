@@ -121,6 +121,12 @@ NULL
 }
 
 #' @importFrom S4Vectors SimpleList
+#' @importFrom SummarizedExperiment colData rowRanges rowData rowData<-
+#' @importFrom SingleCellExperiment int_colData int_colData<-
+#'   int_elementMetadata int_elementMetadata<-
+#'   int_metadata int_metadata<-
+#' @importFrom TreeSummarizedExperiment rowTree colTree transNode rowLinks
+#'   changeTree
 #' @importFrom ape keep.tip
 .merge_rows <- function(x, f, archetype = 1L, mergeTree = FALSE){
   # input check
@@ -183,7 +189,13 @@ NULL
   ans
 }
 
-#' @importFrom S4Vectors SimpleList
+#' @importFrom S4Vectors SimpleList metadata
+#' @importFrom SummarizedExperiment colData rowRanges rowData rowData<-
+#' @importFrom SingleCellExperiment int_colData int_colData<-
+#'   int_elementMetadata int_elementMetadata<-
+#'   int_metadata int_metadata<-
+#' @importFrom TreeSummarizedExperiment rowTree colTree transNode colLinks
+#'   changeTree
 #' @importFrom ape keep.tip
 .merge_cols <- function(x, f, archetype = 1L, mergeTree = FALSE){
   # input check
@@ -261,6 +273,7 @@ NULL
   ape::keep.tip(x, f_index)
 }
 
+#' @rdname merge-methods
 setGeneric("mergeRows",
            signature = "x",
            function(x, f, ...)
@@ -274,6 +287,7 @@ setMethod("mergeRows", signature = c(x = "SummarizedExperiment"),
   }
 )
 
+#' @rdname merge-methods
 setGeneric("mergeCols",
            signature = "x",
            function(x, f, ...)

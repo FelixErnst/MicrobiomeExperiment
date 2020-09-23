@@ -46,6 +46,12 @@ removed if \code{na.rm = TRUE} before agglomeration.}
 \item{agglomerateTree}{\code{TRUE} or \code{FALSE}: should to
 \code{rowTree()} also be agglomerated? (Default:
 \code{agglomerateTree = FALSE})}
+
+\item{ranks}{a character vector defining taxonomic ranks. All values must be
+values of \code{taxonomicRanks()} function.}
+
+\item{rankThreshold}{a single numeric value to define threshold for grouping
+values in "Others".}
 }
 \value{
 A taxonomically-agglomerated, optionally-pruned object of the same
