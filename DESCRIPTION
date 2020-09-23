@@ -49,4 +49,3 @@ Collate:
     'taxonomy.R'
     'utils.R'
 RoxygenNote: 7.1.1
-VignetteBuilder: knitr

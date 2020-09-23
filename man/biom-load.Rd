@@ -25,7 +25,7 @@ For convenciance a few functions are available to convert data from a
 \code{\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment}}
 }
 \examples{
-if(requireNameSpace("biomformat")) {
+if(requireNamespace("biomformat")) {
   # load from file
   rich_dense_file  = system.file("extdata", "rich_dense_otu_table.biom",
                                  package = "biomformat")
