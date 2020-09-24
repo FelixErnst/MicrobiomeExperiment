@@ -4,22 +4,38 @@
 \alias{relabundance}
 \alias{relabundance<-}
 \alias{relAbundanceCounts}
-\alias{relabundance,TreeSummarizedExperiment-method}
-\alias{relabundance<-,TreeSummarizedExperiment-method}
-\alias{relAbundanceCounts,TreeSummarizedExperiment-method}
+\alias{relabundance,MicrobiomeExperiment-method}
+\alias{relabundance<-,MicrobiomeExperiment-method}
+\alias{relAbundanceCounts,MicrobiomeExperiment-method}
 \title{Getter / setter for relative abundance data}
 \usage{
 relabundance(x, ...)
 
 relabundance(x) <- value
 
-relAbundanceCounts(x, abund_values = "counts", name)
+relAbundanceCounts(x, abund_values = "counts", name = "relabundance")
 
-\S4method{relabundance}{TreeSummarizedExperiment}(x)
+\S4method{relabundance}{MicrobiomeExperiment}(x)
 
-\S4method{relabundance}{TreeSummarizedExperiment}(x) <- value
+\S4method{relabundance}{MicrobiomeExperiment}(x) <- value
 
-\S4method{relAbundanceCounts}{TreeSummarizedExperiment}(x, abund_values = "counts", name)
+\S4method{relAbundanceCounts}{MicrobiomeExperiment}(x, abund_values = "counts", name = "relabundance")
+}
+\arguments{
+\item{x}{a  \code{\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment}}
+object}
+
+\item{...}{optional arguments not used currently.}
+
+\item{value}{a \code{matrix} to store as the the \sQuote{relabundance} assay}
+
+\item{abund_values}{A single character value for selecting the
+\code{\link[SummarizedExperiment:SummarizedExperiment-class]{assay}}
+to use for calculating the relative abundance.}
+
+\item{name}{A single character value for selecting the
+\code{\link[SummarizedExperiment:SummarizedExperiment-class]{assay}}
+to stor the calculated relative abundance.}
 }
 \description{
 \code{relabundance} is a getter/setter for relative abundance stored in the
@@ -29,6 +45,7 @@ object
 }
 \examples{
 data(GlobalPatterns)
-GlobalPatterns <- relAbundanceCounts(GlobalPatterns)
-relabundance(GlobalPatterns)
+me <- as(GlobalPatterns,"MicrobiomeExperiment")
+me <- relAbundanceCounts(me)
+relabundance(me)
 }

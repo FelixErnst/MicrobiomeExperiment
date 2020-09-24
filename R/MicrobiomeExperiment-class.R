@@ -8,12 +8,14 @@
 
 #' The MicrobiomeExperiment class
 #'
-#' SummarizedExperiment-like class for microbiome data. microbiomeData is
-#' a MicrobiomeFeatures object LINK so it includes: a taxonomy table
-#' (DataFrame), #' optional phylogentic tree (phylo object), and a sequence
-#' database.
+#' SummarizedExperiment-like class for microbiome data.
 #'
-#' It supports (most) of the interface to phyloseq objects
+#' @param ... Arguments passed to \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}
+#' @param microbiomeData a \code{MicrobiomeFeatures} object or some object
+#'   coercible to a \code{MicrobiomeFeatures} object. See
+#'   \code{\link[=MicrobiomeFeatures-class]{MicrobiomeFeatures}} for more
+#'   details.
+#'
 #'
 #' @name MicrobiomeExperiment-class
 #'
@@ -42,6 +44,9 @@
 #'                      colData = pd )
 NULL
 
+################################################################################
+# constructor
+
 #' @rdname MicrobiomeExperiment-class
 #' @export
 MicrobiomeExperiment <- function(..., microbiomeData = list()) {
@@ -56,6 +61,32 @@ MicrobiomeExperiment <- function(..., microbiomeData = list()) {
 }
 
 
+################################################################################
+# coecrion
+
+.from_SE_to_ME <- function(from){
+    from <- as(from,"TreeSummarizedExperiment")
+    .tse_to_me(from)
+}
+
+setAs("SummarizedExperiment","MicrobiomeExperiment",
+      .from_SE_to_ME)
+
+
+################################################################################
+# accessors
+
+#' Microbiome data methods
+#'
+#' Methods to get or set microbiome data on a
+#' \code{\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment}} object.
+#'
+#' @param x a \code{\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment}}
+#'   object
+#'
+#' @param value a a \code{\link[=MicrobiomeFeatures-class]{MicrobiomeFeatures}}
+#'   object or an object coercible to one.
+#'
 #' @rdname MicrobiomeExperiment-class
 #' @export
 setGeneric("microbiomeData", signature = c("x"),
@@ -79,7 +110,11 @@ setReplaceMethod("microbiomeData", signature = c(x = "MicrobiomeExperiment"),
         if(!is(value,"MicrobiomeFeatures")){
           value <- as(value,"MicrobiomeFeatures")
         }
-        x@microbiomeData <- value
-        x
+        .set_microbiomeData(x, value)
     }
 )
+
+.set_microbiomeData <- function(x, value){
+    x@microbiomeData <- value
+    x
+}

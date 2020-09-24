@@ -50,7 +50,7 @@ removed if \code{na.rm = TRUE} before agglomeration.}
 \item{ranks}{a character vector defining taxonomic ranks. All values must be
 values of \code{taxonomicRanks()} function.}
 
-\item{rankThreshold}{a single numeric value to define threshold for grouping
+\item{rankThresholds}{a single numeric value to define threshold for grouping
 values in "Others".}
 }
 \value{
@@ -76,7 +76,7 @@ nrow(x1)
 
 # with agglomeration of the tree
 x2 <- agglomerateByRank(GlobalPatterns, rank="Family",
-                        agglomerateTree = FALSE)
+                        agglomerateTree = TRUE)
 nrow(x2) # same number of rows, but
 rowTree(x1) # ... different
 rowTree(x2) # ... tree

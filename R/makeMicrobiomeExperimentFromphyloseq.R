@@ -6,7 +6,7 @@
 #'
 #' @importFrom phyloseq phyloseq
 #' @importFrom S4Vectors SimpleList DataFrame
-#' @importFrom SummarizedExperiment colData
+#' @importFrom SummarizedExperiment colData colData<-
 #' @importClassesFrom phyloseq phyloseq
 #'
 #' @export
@@ -41,7 +41,8 @@ makeMicrobiomeExperimentFromphyloseq <- function(obj) {
     }
     output <- MicrobiomeExperiment(
         assays = SimpleList(counts = obj@otu_table@.Data),
-        rowData = mf
+        rowTree = tree,
+        microbiomeData = mf
     )
     if(!is.null(obj@sam_data)){
         colData(output) <- DataFrame(data.frame(obj@sam_data))

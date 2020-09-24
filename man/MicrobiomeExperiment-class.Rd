@@ -19,14 +19,25 @@ microbiomeData(x) <- value
 
 \S4method{microbiomeData}{MicrobiomeExperiment}(x) <- value
 }
-\description{
-SummarizedExperiment-like class for microbiome data. microbiomeData is
-a MicrobiomeFeatures object LINK so it includes: a taxonomy table
-(DataFrame), #' optional phylogentic tree (phylo object), and a sequence
-database.
+\arguments{
+\item{...}{Arguments passed to \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}}
+
+\item{microbiomeData}{a \code{MicrobiomeFeatures} object or some object
+coercible to a \code{MicrobiomeFeatures} object. See
+\code{\link[=MicrobiomeFeatures-class]{MicrobiomeFeatures}} for more
+details.}
+
+\item{x}{a \code{\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment}}
+object}
+
+\item{value}{a a \code{\link[=MicrobiomeFeatures-class]{MicrobiomeFeatures}}
+object or an object coercible to one.}
 }
-\details{
-It supports (most) of the interface to phyloseq objects
+\description{
+SummarizedExperiment-like class for microbiome data.
+
+Methods to get or set microbiome data on a
+\code{\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment}} object.
 }
 \examples{
 library(metagenomeFeatures)

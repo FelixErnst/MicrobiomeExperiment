@@ -24,6 +24,8 @@ mergeCols(x, f, ...)
 If \code{length(levels(f)) == nrow(x)/ncol(x)}, \code{x} will be returned
 unchanged.}
 
+\item{...}{optional arguments not used.}
+
 \item{archetype}{Of each level of \code{f}, which element should be regarded
 as the archetype and metadata in the columns or rows kept, while merging?
 This can be single interger value or an integer vector of the same length

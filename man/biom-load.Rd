@@ -26,6 +26,7 @@ For convenciance a few functions are available to convert data from a
 }
 \examples{
 if(requireNamespace("biomformat")) {
+  library(biomformat)
   # load from file
   rich_dense_file  = system.file("extdata", "rich_dense_otu_table.biom",
                                  package = "biomformat")

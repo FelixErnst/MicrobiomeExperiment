@@ -1,7 +1,3 @@
-
-TAXONOMY_RANKS <- c("domain","kingdom","phylum","class","order","family",
-                    "genus","species")
-
 #' @name taxonomy-methods
 #'
 #' @title Taxonomy related functions
@@ -14,6 +10,11 @@ TAXONOMY_RANKS <- c("domain","kingdom","phylum","class","order","family",
 #'
 #' \code{taxonomyRankEmpty} checks, if a selected rank is empty of information.
 #'
+#' \code{checkTaxonomy} checks, if taxonomy information is valid and whether
+#'   it contains any problems. This is a soft test, which reports some
+#'   diagnostic and might mature into a data validator used upon object
+#'   creation.
+#'
 #' @param x \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}
 #'
 #' @param rank a single character defining a taxonomic rank. Must be a value of
@@ -25,6 +26,8 @@ TAXONOMY_RANKS <- c("domain","kingdom","phylum","class","order","family",
 #'
 #' @param checkWrap \code{TRUE} or \code{FALSE}: Should the wrapping characters
 #'   be removed, before checking? (default: \code{checkWrap = TRUE})
+#'
+#' @param ... optional arguments not used currently.
 #'
 #' @return
 #' \itemize{
@@ -50,6 +53,13 @@ TAXONOMY_RANKS <- c("domain","kingdom","phylum","class","order","family",
 #' merged <- mergeCols(GlobalPatterns,colData(GlobalPatterns)$SampleType)
 #' merged
 NULL
+
+#' @rdname taxonomy-methods
+#' @format a \code{character} vector of length 8 containing the taxonomy ranks
+#'   recognized. In functions this is used case insensitive.
+#' @export
+TAXONOMY_RANKS <- c("domain","kingdom","phylum","class","order","family",
+                    "genus","species")
 
 #' @rdname taxonomy-methods
 setGeneric("taxonomyRanks", signature = c("x"),

@@ -29,8 +29,6 @@
 #'   \code{rowTree()} also be agglomerated? (Default:
 #'   \code{agglomerateTree = FALSE})
 #'
-#' @param rankThreshold a single numeric value to define threshold for grouping
-#'   values in "Others".
 #'
 #' @return A taxonomically-agglomerated, optionally-pruned object of the same
 #'   class \code{x}.
@@ -54,7 +52,7 @@
 #'
 #' # with agglomeration of the tree
 #' x2 <- agglomerateByRank(GlobalPatterns, rank="Family",
-#'                         agglomerateTree = FALSE)
+#'                         agglomerateTree = TRUE)
 #' nrow(x2) # same number of rows, but
 #' rowTree(x1) # ... different
 #' rowTree(x2) # ... tree
@@ -145,6 +143,9 @@ setGeneric("getAgglomerateData",
 
 #' @rdname agglomerate-methods
 #' @aliases getAgglomerateData
+#'
+#' @param rankThresholds a single numeric value to define threshold for grouping
+#'   values in "Others".
 #'
 #' @importFrom SummarizedExperiment rowData
 #' @importFrom dplyr %>% contains
