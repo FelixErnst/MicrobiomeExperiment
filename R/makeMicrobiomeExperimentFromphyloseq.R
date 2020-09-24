@@ -4,26 +4,31 @@
 #'
 #' @return An object of class MicrobiomeExperiment
 #'
-#' @importFrom phyloseq phyloseq
 #' @importFrom S4Vectors SimpleList DataFrame
 #' @importFrom SummarizedExperiment colData colData<-
-#' @importClassesFrom phyloseq phyloseq
 #'
 #' @export
 #'
 #' @examples
 #' if (requireNamespace("phyloseq")) {
 #'     data(GlobalPatterns, package="phyloseq")
-#'     as(GlobalPatterns, "MicrobiomeExperiment")
+#'     makeMicrobiomeExperimentFromphyloseq(GlobalPatterns)
 #'     data(enterotype, package="phyloseq")
-#'     as(enterotype, "MicrobiomeExperiment")
+#'     makeMicrobiomeExperimentFromphyloseq(enterotype)
 #'     data(esophagus, package="phyloseq")
-#'     as(esophagus, "MicrobiomeExperiment")
+#'     makeMicrobiomeExperimentFromphyloseq(esophagus)
 #' }
 makeMicrobiomeExperimentFromphyloseq <- function(obj) {
+    # input check
+    if(!requireNamespace("phyloseq")){
+        stop("'phyloseq' package not found. Please install it to use this ",
+             "function.",
+             call. = FALSE)
+    }
     if(!is(obj,"phyloseq")){
         stop("'obj' must be a 'phyloseq' object")
     }
+    #
     otu <- obj@otu_table@.Data
     taxa <- obj@tax_table@.Data
     if(is.null(taxa)){
@@ -49,8 +54,3 @@ makeMicrobiomeExperimentFromphyloseq <- function(obj) {
     }
     return(output)
 }
-
-setAs("phyloseq", "MicrobiomeExperiment", function(from)
-{
-    makeMicrobiomeExperimentFromphyloseq(from)
-})
