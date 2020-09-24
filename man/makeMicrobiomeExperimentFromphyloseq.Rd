@@ -4,10 +4,10 @@
 \alias{makeMicrobiomeExperimentFromphyloseq}
 \title{Coerce phyloseq object}
 \usage{
-makeMicrobiomeExperimentFromphyloseq(object)
+makeMicrobiomeExperimentFromphyloseq(obj)
 }
 \arguments{
-\item{object}{}
+\item{obj}{a \code{phyloseq} object}
 }
 \value{
 An object of class MicrobiomeExperiment

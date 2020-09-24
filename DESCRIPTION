@@ -1,26 +1,53 @@
 Package: MicrobiomeExperiment
 Type: Package
-Title: What the Package Does (Title Case)
 Version: 0.99.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Date: 2020-09-23
+Authors@R:
+    c(person(given = "Felix G.M.", family = "Ernst", role = c("aut", "cre"),
+             email = "felix.gm.ernst@outlook.com",
+             comment = c(ORCID = "0000-0001-5064-0928")),
+      person(given = "Nathan D.", family = "Olson", role = c("aut"),
+             email = "nolson@@umiacs.umd.edu"))
+Title: MicrobiomeExperiment
+Description: 
+    Infrastructure for working with microbiome data using the backend of the
+    SummarizedExperiment class.
+biocViews: Infrastructure, DataRepresentation
 License: Artistic-2.0
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 Depends:
-    SummarizedExperiment,
+    R (>= 3.6),
+    TreeSummarizedExperiment,
     metagenomeFeatures
-Suggests:
+Imports:
+    methods,
+    IRanges,
+    S4Vectors,
+    SingleCellExperiment,
+    SummarizedExperiment,
+    ape,
     phyloseq,
-    metagenomeSeq
-biocViews: Infrastructure, DataRepresentation
-RoxygenNote: 6.0.1
+    biomformat,
+    tibble,
+    dplyr,
+    tidyr,
+    rlang
+Suggests:
+    metagenomeSeq,
+    testthat,
+    knitr,
+    BiocStyle
 Collate: 
     'MicrobiomeFeatures-class.R'
     'MicrobiomeExperiment-class.R'
     'MicrobiomeExperiment.R'
-    'loadbiom.R'
-    'makeMicrobiomeExperimentFromMRexperiment.R'
+    'agglomerate.R'
+    'makeMicrobiomeExperimentFrombiom.R'
     'makeMicrobiomeExperimentFromphyloseq.R'
+    'merge.R'
+    'relabundance.R'
+    'taxonomy.R'
+    'utils.R'
+RoxygenNote: 7.1.1
+VignetteBuilder: knitr
