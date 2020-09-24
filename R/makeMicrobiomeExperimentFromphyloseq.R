@@ -24,30 +24,30 @@ makeMicrobiomeExperimentFromphyloseq <- function(obj) {
     if(!is(obj,"phyloseq")){
         stop("'obj' must be a 'phyloseq' object")
     }
-    otu <- obj@otu_table@.Data
-    taxa <- obj@tax_table@.Data
-    if(is.null(taxa)){
-        taxa <- matrix(nrow = nrow(otu), ncol=0)
-        rownames(taxa) <- rownames(otu)
+    assays <- SimpleList(counts = obj@otu_table@.Data)
+    rowData <- S4Vectors:::make_zero_col_DataFrame(nrow(assays$counts))
+    colData <- S4Vectors:::make_zero_col_DataFrame(ncol(assays$counts))
+    if(!is.null(obj@tax_table@.Data)){
+        rowData <- DataFrame(data.frame(obj@tax_table@.Data))
+    }
+    if(!is.null(obj@sam_data)){
+        colData <- DataFrame(data.frame(obj@sam_data))
     }
     if(!is.null(obj@phy_tree)){
-        tree <- obj@phy_tree
+        rowTree <- obj@phy_tree
     } else {
-        tree <- NULL
+        rowTree <- NULL
     }
-    mf <- MicrobiomeFeatures(taxa = taxa, tree = tree)
     if (!is.null(obj@refseq)) {
-        mf@refDbSeq <- obj@refseq
+        referenceSeq <- obj@refseq
+    } else {
+        referenceSeq <- NULL
     }
-    output <- MicrobiomeExperiment(
-        assays = SimpleList(counts = obj@otu_table@.Data),
-        rowTree = tree,
-        microbiomeData = mf
-    )
-    if(!is.null(obj@sam_data)){
-        colData(output) <- DataFrame(data.frame(obj@sam_data))
-    }
-    return(output)
+    MicrobiomeExperiment(assays = assays,
+                         rowData = obj@tax_table@.Data,
+                         colData = colData,
+                         rowTree = rowTree,
+                         referenceSeq = referenceSeq)
 }
 
 setAs("phyloseq", "MicrobiomeExperiment", function(from)

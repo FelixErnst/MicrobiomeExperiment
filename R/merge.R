@@ -155,6 +155,8 @@ NULL
   args <- list(assays = assays,
                colData = colData(x),
                metadata = metadata(x))
+  ####################################
+  # class specific pre-processing
   if(is(x,"RangedSummarizedExperiment")){
     # merge row ranges
     row_ranges <- .merge_row_ranges(rowRanges(x), f, archetype)
@@ -169,15 +171,18 @@ NULL
               list(rowTree = rowTree(x),
                    colTree = colTree(x)))
   }
+  ####################################
   ans <- do.call(match.fun(class_FUN), args)
+  ####################################
+  # class specific post-processing
   if(is(x,"RangedSummarizedExperiment")){
     rowData(ans) <- row_data
   }
   if(is(x,"SingleCellExperiment")){
-    int_row_data <- .merge_row_or_col_data(int_elementMetadata(x), f, archetype)
-    int_elementMetadata(ans) <- int_row_data
-    int_colData(ans) <- int_colData(x)
-    int_metadata(ans) <- int_metadata(x)
+      int_row_data <- .merge_row_or_col_data(int_elementMetadata(x), f, archetype)
+      int_elementMetadata(ans) <- int_row_data
+      int_colData(ans) <- int_colData(x)
+      int_metadata(ans) <- int_metadata(x)
   }
   if(is(x,"TreeSummarizedExperiment")){
     # optionally merge tree
@@ -188,6 +193,11 @@ NULL
       ans <- changeTree(ans, rowTree = row_tree)
     }
   }
+  if(is(x,"MicrobiomeExperiment") && !is.null(referenceSeq(x))){
+      referenceSeq <- .merge_row_ranges(referenceSeq(x), f, archetype)
+      referenceSeq(ans) <- referenceSeq
+  }
+  ####################################
   ans
 }
 
@@ -224,6 +234,8 @@ NULL
   args <- list(assays = assays,
                colData = col_data,
                metadata = metadata(x))
+  ####################################
+  # class specific pre-processing
   if(is(x,"RangedSummarizedExperiment")){
     args <- c(args,
               list(rowRanges = rowRanges(x)))
@@ -236,7 +248,10 @@ NULL
               list(rowTree = rowTree(x),
                    colTree = colTree(x)))
   }
+  ####################################
   ans <- do.call(match.fun(class_FUN), args)
+  ####################################
+  # class specific post-processing
   if(is(x,"RangedSummarizedExperiment")){
     rowData(ans) <- rowData(x)
   }
@@ -255,6 +270,7 @@ NULL
       ans <- changeTree(ans, colTree = col_tree)
     }
   }
+  ####################################
   ans
 }
 
