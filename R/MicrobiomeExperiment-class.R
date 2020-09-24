@@ -1,120 +1,188 @@
-## Class constructor
-.MicrobiomeExperiment <- setClass("MicrobiomeExperiment",
-    contains="TreeSummarizedExperiment",
-    representation(
-        microbiomeData = "MicrobiomeFeatures"
-    )
-)
+#' @include MicrobiomeExperiment.R
+NULL
 
 #' The MicrobiomeExperiment class
 #'
 #' SummarizedExperiment-like class for microbiome data.
 #'
 #' @param ... Arguments passed to \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}
-#' @param microbiomeData a \code{MicrobiomeFeatures} object or some object
-#'   coercible to a \code{MicrobiomeFeatures} object. See
-#'   \code{\link[=MicrobiomeFeatures-class]{MicrobiomeFeatures}} for more
+#' @param referenceSeq a \code{DNAStringSet} object or some object
+#'   coercible to a \code{DNAStringSet} object. See
+#'   \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} for more
 #'   details.
 #'
 #'
 #' @name MicrobiomeExperiment-class
 #'
-#' @include MicrobiomeFeatures-class.R
-#'
-#' @importFrom S4Vectors SimpleList
-#' @importFrom SummarizedExperiment SummarizedExperiment
 #' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
+#' @importFrom Biostrings DNAStringSet
 #'
-#' @importClassesFrom metagenomeFeatures mgFeatures
-#' @importClassesFrom SummarizedExperiment SummarizedExperiment
 #' @importClassesFrom TreeSummarizedExperiment TreeSummarizedExperiment
+#' @importClassesFrom Biostrings DNAStringSet
 #'
 #' @examples
-#' library(metagenomeFeatures)
-#' data(mock_mgF)
+#' data(taxa)
 #'
 #' sampleNames <- letters[1:4]
 #' pd <- DataFrame(a=letters[1:4], b=1:4)
-#' numcounts <- nrow(mock_mgF) * 4
+#' numcounts <- nrow(taxa) * 4
 #' counts <- matrix(sample(1:1000, numcounts, replace=TRUE),
-#'                  nr = nrow(mock_mgF), nc = 4)
+#'                  nr = nrow(taxa), nc = 4)
 #'
 #' MicrobiomeExperiment(assays = SimpleList(counts = counts),
-#'                      rowData = mock_mgF,
-#'                      colData = pd )
+#'                      rowData = taxa,
+#'                      colData = pd)
 NULL
+
+setClassUnion("DNAStringSet_OR_NULL", c("DNAStringSet","NULL"))
+
+#' @rdname MicrobiomeExperiment-class
+#' @export
+setClass("MicrobiomeExperiment",
+         contains = "TreeSummarizedExperiment",
+         slots = c(referenceSeq = "DNAStringSet_OR_NULL"),
+         prototype = list(referenceSeq = NULL)
+)
+
+
+setMethod("vertical_slot_names", "MicrobiomeExperiment",
+          function(x) c("referenceSeq", callNextMethod())
+)
+
+################################################################################
+# validity
+
 
 ################################################################################
 # constructor
 
 #' @rdname MicrobiomeExperiment-class
 #' @export
-MicrobiomeExperiment <- function(..., microbiomeData = list()) {
+MicrobiomeExperiment <- function(..., referenceSeq = NULL) {
     tse <- TreeSummarizedExperiment(...)
-    .tse_to_me(tse, microbiomeData)
+    .tse_to_me(tse, referenceSeq)
 }
 
-.tse_to_me <- function(tse, microbiomeData = MicrobiomeFeatures()){
-    out <- new("MicrobiomeExperiment", tse)
-    microbiomeData(out) <- microbiomeData
-    out
+.tse_to_me <- function(tse, referenceSeq = NULL){
+    me <- new("MicrobiomeExperiment",
+              tse,
+              referenceSeq = referenceSeq)
+    me
 }
-
 
 ################################################################################
-# coecrion
+# coercion
 
-.from_SE_to_ME <- function(from){
-    from <- as(from,"TreeSummarizedExperiment")
+setAs("TreeSummarizedExperiment", "MicrobiomeExperiment", function(from) {
     .tse_to_me(from)
-}
+})
 
-setAs("SummarizedExperiment","MicrobiomeExperiment",
-      .from_SE_to_ME)
+#' @importClassesFrom SummarizedExperiment RangedSummarizedExperiment
+setAs("RangedSummarizedExperiment", "MicrobiomeExperiment", function(from) {
+    .tse_to_me(as(from,"TreeSummarizedExperiment"))
+})
 
+#' @importClassesFrom SummarizedExperiment SummarizedExperiment
+setAs("SummarizedExperiment", "MicrobiomeExperiment", function(from) {
+    .tse_to_me(as(from,"TreeSummarizedExperiment"))
+})
+
+#' @importClassesFrom SingleCellExperiment SingleCellExperiment
+setAs("SingleCellExperiment", "MicrobiomeExperiment", function(from) {
+    .tse_to_me(as(from,"TreeSummarizedExperiment"))
+})
 
 ################################################################################
 # accessors
 
 #' Microbiome data methods
 #'
-#' Methods to get or set microbiome data on a
+#' Methods to get or set reference sequence data on a
 #' \code{\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment}} object.
 #'
 #' @param x a \code{\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment}}
 #'   object
 #'
-#' @param value a a \code{\link[=MicrobiomeFeatures-class]{MicrobiomeFeatures}}
+#' @param value a a \code{\link[Biostrings:XStringSet-class]{DNAStringSet}}
 #'   object or an object coercible to one.
 #'
-#' @rdname MicrobiomeExperiment-class
+#' @name referenceSeq
+#'
 #' @export
-setGeneric("microbiomeData", signature = c("x"),
-           function(x) standardGeneric("microbiomeData"))
-#' @rdname MicrobiomeExperiment-class
+setGeneric("referenceSeq", signature = c("x"),
+           function(x) standardGeneric("referenceSeq"))
+#' @rdname referenceSeq
 #' @export
-setMethod("microbiomeData", signature = c(x = "MicrobiomeExperiment"),
+setMethod("referenceSeq", signature = c(x = "MicrobiomeExperiment"),
     function(x){
-        x@microbiomeData
+        x@referenceSeq
     }
 )
 
-#' @rdname MicrobiomeExperiment-class
+#' @rdname referenceSeq
 #' @export
-setGeneric("microbiomeData<-", signature = c("x"),
-           function(x, value) standardGeneric("microbiomeData<-"))
-#' @rdname MicrobiomeExperiment-class
+setGeneric("referenceSeq<-", signature = c("x"),
+           function(x, value) standardGeneric("referenceSeq<-"))
+#' @rdname referenceSeq
 #' @export
-setReplaceMethod("microbiomeData", signature = c(x = "MicrobiomeExperiment"),
+setReplaceMethod("referenceSeq", signature = c(x = "MicrobiomeExperiment"),
     function(x, value){
-        if(!is(value,"MicrobiomeFeatures")){
-          value <- as(value,"MicrobiomeFeatures")
+        if(!is(value,"DNAStringSet")){
+          value <- as(value,"DNAStringSet")
         }
-        .set_microbiomeData(x, value)
+        .set_referenceSeq(x, value)
     }
 )
 
-.set_microbiomeData <- function(x, value){
-    x@microbiomeData <- value
+.set_referenceSeq <- function(x, value){
+    x@referenceSeq <- value
     x
 }
+
+################################################################################
+# subsetting
+
+
+setMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY"),
+          function(x, i, j, ..., drop = TRUE) {
+              if (!missing(i)) {
+                  x@referenceSeq <- referenceSeq(x)[i]
+              }
+
+              callNextMethod()
+          }
+)
+
+setReplaceMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY", "MicrobiomeExperiment"),
+                 function(x, i, j, ..., value) {
+                     if (missing(i) && missing(j)) {
+                         return(value)
+                     }
+
+                     if (!missing(i)) {
+                         tmp <- referenceSeq(x)
+                         tmp[i] <- referenceSeq(value)
+                         x@referenceSeq <- tmp
+                     }
+                     callNextMethod()
+                 }
+)
+
+
+################################################################################
+# show
+
+setMethod("show", signature = c(object = "MicrobiomeExperiment"),
+    function(object){
+        callNextMethod()
+        referenceSeq <- object@referenceSeq
+        if(!is.null(referenceSeq)){
+            msg <- sprintf(paste0("referenceSeq: a ", class(referenceSeq),
+                                  " (%s sequences)\n"),
+                           length(referenceSeq))
+        } else {
+            msg <- "referenceSeq: NULL\n"
+        }
+        cat(msg)
+    }
+)

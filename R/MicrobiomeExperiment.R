@@ -8,6 +8,7 @@
 NULL
 
 #' @import methods
+#' @import S4Vectors
 NULL
 
 #' @title MicrobiomeExperiment datasets
@@ -15,6 +16,9 @@ NULL
 #' @description
 #' These datasets are conversions of the phyloseq datasets \code{GlobalPatterns}
 #' \code{enterotype}, \code{esophagus} and \code{soilrep}.
+#'
+#' \code{taxa} contains example taxonomic data derived from the
+#'   \code{metagenomeFeatures} package.
 #'
 #' @name MicrobiomeExperiment-datasets
 #' @docType data
@@ -30,3 +34,6 @@ NULL
 #' @name MicrobiomeExperiment-datasets
 #' @usage data(soilrep)
 "soilrep"
+#' @name MicrobiomeExperiment-datasets
+#' @usage data(taxa)
+"taxa"
