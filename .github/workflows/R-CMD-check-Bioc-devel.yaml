@@ -1,6 +1,12 @@
 on:
-  - push
-  - pull_request
+  push:
+    branches:
+      - master
+      - dev
+  pull_request:
+    branches:
+      - master
+      - dev
 
 name: R-CMD-check-Bioc-devel
 
@@ -41,7 +47,7 @@ jobs:
 
       - name: Query dependencies
         run: |
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE, repos = c(BiocManager::repositories(),getOption('repos'))), "depends.Rds", version = 2)
+          saveRDS(remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories()), "depends.Rds", version = 2)
         shell: Rscript {0}
 
       - name: Cache R packages
@@ -64,7 +70,7 @@ jobs:
 
       - name: Install R dependencies
         run: |
-          BiocManager::install(remotes::dev_package_deps(dependencies = TRUE, repos = c(BiocManager::repositories(),getOption('repos')))$package)
+          BiocManager::install(remotes::dev_package_deps(dependencies = TRUE, repos = BiocManager::repositories())$package)
           remotes::install_cran(c("rcmdcheck","covr","magick"))
         shell: Rscript {0}
 
