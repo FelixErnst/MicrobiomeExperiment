@@ -7,6 +7,9 @@
 #' @seealso \link[=MicrobiomeExperiment-class]{MicrobiomeExperiment} class
 NULL
 
+#' @import methods
+NULL
+
 #' @title MicrobiomeExperiment datasets
 #'
 #' @description
