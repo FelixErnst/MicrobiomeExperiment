@@ -1,7 +1,7 @@
 Package: MicrobiomeExperiment
 Type: Package
-Version: 0.99.0
-Date: 2020-09-23
+Version: 0.99.0.9002
+Date: 2020-09-24
 Authors@R:
     c(person(given = "Felix G.M.", family = "Ernst", role = c("aut", "cre"),
              email = "felix.gm.ernst@outlook.com",
@@ -19,30 +19,33 @@ LazyData: false
 Depends:
     R (>= 3.6),
     TreeSummarizedExperiment,
-    metagenomeFeatures
+    S4Vectors (>= 0.27.12)
 Imports:
     methods,
     IRanges,
-    S4Vectors,
+    Biostrings (>= 2.57.2),
     SingleCellExperiment,
     SummarizedExperiment,
-    ape,
-    phyloseq,
     biomformat,
+    ape,
     tibble,
     dplyr,
     tidyr,
-    rlang
+    rlang,
+    stringr
 Suggests:
     metagenomeSeq,
     testthat,
     knitr,
-    BiocStyle
+    BiocStyle,
+    phyloseq,
+    ShortRead,
+    dada2
 Collate: 
-    'MicrobiomeFeatures-class.R'
-    'MicrobiomeExperiment-class.R'
     'MicrobiomeExperiment.R'
+    'MicrobiomeExperiment-class.R'
     'agglomerate.R'
+    'makeMicrobiomeExperimentFromDADA2.R'
     'makeMicrobiomeExperimentFrombiom.R'
     'makeMicrobiomeExperimentFromphyloseq.R'
     'merge.R'
