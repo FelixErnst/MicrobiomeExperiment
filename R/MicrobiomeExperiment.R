@@ -37,3 +37,12 @@ NULL
 #' @name MicrobiomeExperiment-datasets
 #' @usage data(taxa)
 "taxa"
+
+#' MicrobiomeExperiment internals
+#'
+#' Internal functions which should only be used in MicrobiomeExperiment
+#'
+#' @keywords internal
+#'
+#' @name MicrobiomeExperiment-internal
+NULL
