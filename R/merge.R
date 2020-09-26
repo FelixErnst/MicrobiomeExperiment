@@ -127,7 +127,7 @@ NULL
 #' @importFrom SingleCellExperiment int_colData int_colData<-
 #'   int_elementMetadata int_elementMetadata<-
 #'   int_metadata int_metadata<-
-#' @importFrom TreeSummarizedExperiment rowTree colTree transNode rowLinks
+#' @importFrom TreeSummarizedExperiment rowTree colTree convertNode rowLinks
 #'   changeTree
 #' @importFrom ape keep.tip
 .merge_rows <- function(x, f, archetype = 1L, mergeTree = FALSE){
@@ -188,7 +188,7 @@ NULL
     # optionally merge tree
     row_tree <- rowTree(ans)
     if(!is.null(row_tree) && mergeTree){
-      row_leaf <- transNode(tree = row_tree, node = rowLinks(ans)$nodeNum)
+      row_leaf <- convertNode(tree = row_tree, node = rowLinks(ans)$nodeNum)
       row_tree <- ape::keep.tip(phy = row_tree, tip = row_leaf)
       ans <- changeTree(ans, rowTree = row_tree)
     }
@@ -206,7 +206,7 @@ NULL
 #' @importFrom SingleCellExperiment int_colData int_colData<-
 #'   int_elementMetadata int_elementMetadata<-
 #'   int_metadata int_metadata<-
-#' @importFrom TreeSummarizedExperiment rowTree colTree transNode colLinks
+#' @importFrom TreeSummarizedExperiment rowTree colTree convertNode colLinks
 #'   changeTree
 #' @importFrom ape keep.tip
 .merge_cols <- function(x, f, archetype = 1L, mergeTree = FALSE){
@@ -265,7 +265,7 @@ NULL
     # optionally merge tree
     col_tree <- colTree(ans)
     if(!is.null(col_tree) && mergeTree){
-      col_leaf <- transNode(tree = col_tree, node = colLinks(ans)$nodeNum)
+      col_leaf <- convertNode(tree = col_tree, node = colLinks(ans)$nodeNum)
       col_tree <- ape::keep.tip(phy = col_tree, tip = col_leaf)
       ans <- changeTree(ans, colTree = col_tree)
     }
