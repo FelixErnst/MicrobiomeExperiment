@@ -19,11 +19,11 @@ LazyData: false
 Depends:
     R (>= 3.6),
     TreeSummarizedExperiment,
-    S4Vectors (>= 0.27.12)
+    S4Vectors
 Imports:
     methods,
     IRanges,
-    Biostrings (>= 2.57.2),
+    Biostrings,
     SingleCellExperiment,
     SummarizedExperiment,
     biomformat,

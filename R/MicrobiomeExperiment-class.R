@@ -142,7 +142,7 @@ setReplaceMethod("referenceSeq", signature = c(x = "MicrobiomeExperiment"),
 ################################################################################
 # subsetting
 
-
+#' @rdname MicrobiomeExperiment-internal
 setMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY"),
           function(x, i, j, ..., drop = TRUE) {
               if (!missing(i)) {
@@ -153,6 +153,7 @@ setMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY"),
           }
 )
 
+#' @rdname MicrobiomeExperiment-internal
 setReplaceMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY", "MicrobiomeExperiment"),
                  function(x, i, j, ..., value) {
                      if (missing(i) && missing(j)) {
