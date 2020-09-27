@@ -15,7 +15,7 @@ Currently this includes:
 
 In this package
 
-- addition of reference sequences slots
+- ~addition of reference sequences slots~
 - addition of specialized taxonomic container, if possible
 - alpha and beta diversity measure
 - ...
