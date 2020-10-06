@@ -10,11 +10,11 @@
 \usage{
 mergeRows(x, f, ...)
 
-\S4method{mergeRows}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE)
+\S4method{mergeRows}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, useScater = FALSE, ...)
 
 mergeCols(x, f, ...)
 
-\S4method{mergeCols}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE)
+\S4method{mergeCols}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, useScater = FALSE, ...)
 }
 \arguments{
 \item{x}{\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}}
@@ -24,7 +24,10 @@ mergeCols(x, f, ...)
 If \code{length(levels(f)) == nrow(x)/ncol(x)}, \code{x} will be returned
 unchanged.}
 
-\item{...}{optional arguments not used.}
+\item{...}{optional arguments passed onto
+\code{\link[scater:sumCountsAcrossFeatures]{sumCountsAcrossFeatures }},
+if \code{useScater = TRUE}, except \code{subset_row}, \code{subset_col} and
+\code{average}}
 
 \item{archetype}{Of each level of \code{f}, which element should be regarded
 as the archetype and metadata in the columns or rows kept, while merging?
