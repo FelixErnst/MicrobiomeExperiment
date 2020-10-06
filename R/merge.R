@@ -25,8 +25,14 @@
 #' @param mergeTree \code{TRUE} or \code{FALSE}: should to
 #'   \code{rowTree()} also be merged? (Default: \code{mergeTree = FALSE})
 #'
+#' @param useScater \code{TRUE} or \code{FALSE}: Should
+#'   \code{\link[scater:sumCountsAcrossFeatures]{sumCountsAcrossFeatures}} be
+#'   used to sum up the assay data? This offers parallelization capabilities,
+#'   which might be useful for larger datasets. (default:
+#'   \code{useScater = FALSE})
+#'
 #' @param ... optional arguments passed onto
-#'   \code{\link[scater:sumCountsAcrossFeatures]{sumCountsAcrossFeatures }},
+#'   \code{\link[scater:sumCountsAcrossFeatures]{sumCountsAcrossFeatures}},
 #'   if \code{useScater = TRUE}, except \code{subset_row}, \code{subset_col} and
 #'   \code{average}
 #'
