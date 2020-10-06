@@ -45,7 +45,7 @@ setClass("MicrobiomeExperiment",
 )
 
 
-setMethod("parallel_slot_names", "MicrobiomeExperiment",
+setMethod("vertical_slot_names", "MicrobiomeExperiment",
           function(x) c("referenceSeq", callNextMethod())
 )
 

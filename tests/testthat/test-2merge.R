@@ -43,41 +43,24 @@ test_that("merge", {
   expect_equal(nrow(actual),2)
   expect_equal(ncol(actual),ncol(mat))
   FUN_check_mat_values <- function(col,mat,actual){
-    expect_equal(sum(mat[1:3,col]),actual[1,col])
-    expect_equal(sum(mat[4:6,col]),actual[2,col])
+    expect_equivalent(sum(mat[1:3,col]), actual[1,col])
+    expect_equivalent(sum(mat[4:6,col]), actual[2,col])
   }
   lapply(seq_len(ncol(actual)), FUN_check_mat_values, mat, actual)
-  # .merge_row_or_col_data
+  # .get_element_pos
+  expect_error(MicrobiomeExperiment:::.get_element_pos(),
+               'argument "f" is missing')
+  actual <- MicrobiomeExperiment:::.get_element_pos(f)
+  expect_equal(actual,c(a = 1, b = 4))
+  actual <- MicrobiomeExperiment:::.get_element_pos(f, archetype = 2)
+  expect_equal(actual,c(a = 2, b = 5))
+  actual <- MicrobiomeExperiment:::.get_element_pos(f, archetype = c(2,1))
+  expect_equal(actual,c(a = 2, b = 4))
+  # .merge_rows
   gr <- GRanges("chr1",rep("1-6",6))
   df <- DataFrame(n = c(1:6))
   mcols(gr) <- df
   grl <- splitAsList(gr,1:6)
-  expect_error(MicrobiomeExperiment:::.merge_row_or_col_data(),
-               'argument "f" is missing')
-  expect_error(MicrobiomeExperiment:::.merge_row_or_col_data(df),
-               'argument "f" is missing')
-  actual <- MicrobiomeExperiment:::.merge_row_or_col_data(df, f)
-  expect_s4_class(actual,"DataFrame")
-  expect_equal(actual$n,c(1,4))
-  actual <- MicrobiomeExperiment:::.merge_row_or_col_data(df, f, archetype = 2)
-  expect_equal(actual$n,c(2,5))
-  actual <- MicrobiomeExperiment:::.merge_row_or_col_data(df, f, archetype = c(3,1))
-  expect_equal(actual$n,c(3,4))
-  actual <- MicrobiomeExperiment:::.merge_row_ranges(gr, f)
-  expect_s4_class(actual,"GRanges")
-  expect_equal(mcols(actual)$n,c(1,4))
-  actual <- MicrobiomeExperiment:::.merge_row_ranges(gr, f, archetype = 2)
-  expect_equal(mcols(actual)$n,c(2,5))
-  actual <- MicrobiomeExperiment:::.merge_row_ranges(gr, f, archetype = c(3,1))
-  expect_equal(mcols(actual)$n,c(3,4))
-  actual <- MicrobiomeExperiment:::.merge_row_ranges(grl, f)
-  expect_s4_class(actual,"GRangesList")
-  expect_equal(unlist(mcols(actual,level="within"))$n,c(1,4))
-  actual <- MicrobiomeExperiment:::.merge_row_ranges(grl, f, archetype = 2)
-  expect_equal(unlist(mcols(actual,level="within"))$n,c(2,5))
-  actual <- MicrobiomeExperiment:::.merge_row_ranges(grl, f, archetype = c(3,1))
-  expect_equal(unlist(mcols(actual,level="within"))$n,c(3,4))
-  # .merge_rows
   expect_error(MicrobiomeExperiment:::.merge_rows(),
                'argument "f" is missing')
   x <- SummarizedExperiment(assays = list(mat = mat))
@@ -101,13 +84,15 @@ test_that("merge", {
   lapply(list(x,xr,xrl,xsce,xtse),FUN_check_x,actual_mat,archetype=2)
   #
   expect_equal(MicrobiomeExperiment:::.merge_rows(x, f), mergeRows(x, f))
+  # useScater = TRUE
+  expect_equal(mergeRows(x, f), mergeRows(x, f, useScater = TRUE))
   #
   f <- factor(c(rep("a",5),rep("b",5)))
   mat <- t(mat)
   actual_mat <- actual <- MicrobiomeExperiment:::.merge_assay(mat, f)
   FUN_check_mat_values <- function(col,mat,actual){
-    expect_equal(sum(mat[1:5,col]),actual[1,col])
-    expect_equal(sum(mat[6:10,col]),actual[2,col])
+      expect_equivalent(sum(mat[1:5,col]),actual[1,col])
+      expect_equivalent(sum(mat[6:10,col]),actual[2,col])
   }
   lapply(seq_len(ncol(actual)), FUN_check_mat_values, mat, actual)
   FUN_check_cols_x <- function(x,actual_mat,archetype=1){
@@ -120,4 +105,6 @@ test_that("merge", {
   lapply(list(x,xr,xrl,xsce,xtse),FUN_check_cols_x,t(actual_mat),archetype=2)
   #
   expect_equal(MicrobiomeExperiment:::.merge_cols(x, f), mergeCols(x, f))
+  # useScater = TRUE
+  expect_equal(mergeCols(x, f), mergeCols(x, f, useScater = TRUE))
 })

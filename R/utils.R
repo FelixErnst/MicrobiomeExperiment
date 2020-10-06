@@ -1,4 +1,14 @@
 ################################################################################
+# integration with other packages
+
+.require_scater <- function(){
+  if(!requireNamespace("scater")){
+    stop("Please install the 'scater' package.", call. = FALSE)
+  }
+}
+
+
+################################################################################
 # testing
 
 .is_a_bool <- function(x){
