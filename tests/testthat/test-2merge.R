@@ -57,6 +57,10 @@ test_that("merge", {
   actual <- MicrobiomeExperiment:::.get_element_pos(f, archetype = c(2,1))
   expect_equal(actual,c(a = 2, b = 4))
   # .merge_rows
+  gr <- GRanges("chr1",rep("1-6",6))
+  df <- DataFrame(n = c(1:6))
+  mcols(gr) <- df
+  grl <- splitAsList(gr,1:6)
   expect_error(MicrobiomeExperiment:::.merge_rows(),
                'argument "f" is missing')
   x <- SummarizedExperiment(assays = list(mat = mat))
