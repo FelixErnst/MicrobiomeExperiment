@@ -75,7 +75,7 @@ setGeneric("agglomerateByRank",
 #' @rdname agglomerate-methods
 #' @aliases agglomerateByRank
 #'
-#' @importFrom SummarizedExperiment rowData
+#' @importFrom SummarizedExperiment rowData rowData<-
 #'
 #' @export
 setMethod("agglomerateByRank", signature = c(x = "SummarizedExperiment"),
