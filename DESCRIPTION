@@ -1,6 +1,6 @@
 Package: MicrobiomeExperiment
 Type: Package
-Version: 0.99.0.9003
+Version: 0.99.0.9004
 Date: 2020-10-06
 Authors@R:
     c(person(given = "Felix G.M.", family = "Ernst", role = c("aut", "cre"),
@@ -26,6 +26,7 @@ Imports:
     Biostrings,
     SingleCellExperiment,
     SummarizedExperiment,
+    scater,
     biomformat,
     ape,
     tibble,
@@ -34,7 +35,6 @@ Imports:
     rlang,
     stringr
 Suggests:
-    scater,
     metagenomeSeq,
     testthat,
     knitr,
