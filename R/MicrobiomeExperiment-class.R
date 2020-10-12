@@ -15,7 +15,6 @@ NULL
 #' @name MicrobiomeExperiment-class
 #'
 #' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
-#' @importFrom Biostrings DNAStringSet
 #'
 #' @importClassesFrom TreeSummarizedExperiment TreeSummarizedExperiment
 #' @importClassesFrom Biostrings DNAStringSet

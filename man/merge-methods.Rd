@@ -2,19 +2,13 @@
 % Please edit documentation in R/merge.R
 \name{merge-methods}
 \alias{merge-methods}
-\alias{mergeRows}
-\alias{mergeRows,SummarizedExperiment-method}
-\alias{mergeCols}
-\alias{mergeCols,SummarizedExperiment-method}
-\title{Merge a subset of the species in \code{x} into one species/taxa/OTU.}
+\alias{mergeRows,TreeSummarizedExperiment-method}
+\alias{mergeCols,TreeSummarizedExperiment-method}
+\title{Merge a subset of the rows or cols}
 \usage{
-mergeRows(x, f, ...)
+\S4method{mergeRows}{TreeSummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, ...)
 
-\S4method{mergeRows}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, ...)
-
-mergeCols(x, f, ...)
-
-\S4method{mergeCols}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, ...)
+\S4method{mergeCols}{TreeSummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, ...)
 }
 \arguments{
 \item{x}{\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}}
@@ -24,11 +18,6 @@ mergeCols(x, f, ...)
 If \code{length(levels(f)) == nrow(x)/ncol(x)}, \code{x} will be returned
 unchanged.}
 
-\item{...}{optional arguments passed onto
-\code{\link[scater:sumCountsAcrossFeatures]{sumCountsAcrossFeatures}},
-if \code{useScater = TRUE}, except \code{subset_row}, \code{subset_col} and
-\code{average}}
-
 \item{archetype}{Of each level of \code{f}, which element should be regarded
 as the archetype and metadata in the columns or rows kept, while merging?
 This can be single interger value or an integer vector of the same length
@@ -37,6 +26,10 @@ element encountered will be kept)}
 
 \item{mergeTree}{\code{TRUE} or \code{FALSE}: should to
 \code{rowTree()} also be merged? (Default: \code{mergeTree = FALSE})}
+
+\item{...}{optional arguments passed onto
+\code{\link[scater:sumCountsAcrossFeatures]{sumCountsAcrossFeatures}},
+except \code{subset_row} and \code{subset_col}}
 }
 \value{
 an object with the same class \code{x} with the specified entries
@@ -44,10 +37,9 @@ an object with the same class \code{x} with the specified entries
 }
 \description{
 In the context of microbiome analysis, it might be desirable to merge data
-based on taxonomic levels. \code{mergeRows} uses
-\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
-and sub-classes, which contains certain field in its \code{rowData} (See
-\code{\link[=taxonomy-methods]{taxonomyRanks}} for more details).
+based on taxonomic levels. \code{mergeRows} implements the low level function
+for more detail have a look at
+\code{\link[=agglomerate-methods]{agglomerateByRank}}.
 }
 \examples{
 data(esophagus)
