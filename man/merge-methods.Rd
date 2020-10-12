@@ -10,11 +10,11 @@
 \usage{
 mergeRows(x, f, ...)
 
-\S4method{mergeRows}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, useScater = FALSE, ...)
+\S4method{mergeRows}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, ...)
 
 mergeCols(x, f, ...)
 
-\S4method{mergeCols}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, useScater = FALSE, ...)
+\S4method{mergeCols}{SummarizedExperiment}(x, f, archetype = 1L, mergeTree = FALSE, ...)
 }
 \arguments{
 \item{x}{\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}}
@@ -37,12 +37,6 @@ element encountered will be kept)}
 
 \item{mergeTree}{\code{TRUE} or \code{FALSE}: should to
 \code{rowTree()} also be merged? (Default: \code{mergeTree = FALSE})}
-
-\item{useScater}{\code{TRUE} or \code{FALSE}: Should
-\code{\link[scater:sumCountsAcrossFeatures]{sumCountsAcrossFeatures}} be
-used to sum up the assay data? This offers parallelization capabilities,
-which might be useful for larger datasets. (default:
-\code{useScater = FALSE})}
 }
 \value{
 an object with the same class \code{x} with the specified entries

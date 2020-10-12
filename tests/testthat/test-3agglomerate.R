@@ -5,7 +5,7 @@ test_that("agglomerate", {
   mcols(gr) <- df
   grl <- splitAsList(gr,1:11)
   mat <- matrix(1:110, nrow = 11)
-  xtse <- TreeSummarizedExperiment(assays = list(mat = mat),
+  xtse <- MicrobiomeExperiment(assays = list(mat = mat),
                                    rowRanges = unname(grl))
   tax_data <- DataFrame(Phylum = c(rep("a",3),rep("b",3),rep("c",3),rep("b",2)),
                         score = 1:11,
@@ -17,15 +17,15 @@ test_that("agglomerate", {
   actual_family <- actual <- mergeRows(xtse, f = tax_factors)
   expect_s4_class(actual,class(xtse))
   expect_equal(dim(actual),c(8,10))
-  expect_equal(assays(actual)$mat[8,1],c(c_NA = 8))
-  expect_equal(assays(actual)$mat[7,1],c(c_h = 16))
+  expect_equal(assays(actual)$mat[8,1],c(8))
+  expect_equal(assays(actual)$mat[7,1],c(16))
   tax_factors <- MicrobiomeExperiment:::.get_tax_groups(xtse, col = 1)
   actual_phylum <- actual <- mergeRows(xtse, f = tax_factors)
   expect_s4_class(actual,class(xtse))
   expect_equal(dim(actual),c(3,10))
-  expect_equal(assays(actual)$mat[1,1],c(a = 6))
-  expect_equal(assays(actual)$mat[2,1],c(b = 36))
-  expect_equal(assays(actual)$mat[3,1],c(c = 24))
+  expect_equal(assays(actual)$mat[1,1],c(6))
+  expect_equal(assays(actual)$mat[2,1],c(36))
+  expect_equal(assays(actual)$mat[3,1],c(24))
   actual <- agglomerateByRank(xtse,"Family",na.rm=FALSE)
   expect_equivalent(rowData(actual),rowData(actual_family))
   actual <- agglomerateByRank(xtse,"Phylum",na.rm=FALSE)

@@ -144,29 +144,29 @@ setReplaceMethod("referenceSeq", signature = c(x = "MicrobiomeExperiment"),
 
 #' @rdname MicrobiomeExperiment-internal
 setMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY"),
-          function(x, i, j, ..., drop = TRUE) {
-              if (!missing(i)) {
-                  x@referenceSeq <- referenceSeq(x)[i]
-              }
+    function(x, i, j, ..., drop = TRUE) {
+        if (!missing(i)) {
+          x@referenceSeq <- referenceSeq(x)[i]
+        }
 
-              callNextMethod()
-          }
+        callNextMethod()
+    }
 )
 
 #' @rdname MicrobiomeExperiment-internal
 setReplaceMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY", "MicrobiomeExperiment"),
-                 function(x, i, j, ..., value) {
-                     if (missing(i) && missing(j)) {
-                         return(value)
-                     }
+    function(x, i, j, ..., value) {
+        if (missing(i) && missing(j)) {
+         return(value)
+        }
 
-                     if (!missing(i)) {
-                         tmp <- referenceSeq(x)
-                         tmp[i] <- referenceSeq(value)
-                         x@referenceSeq <- tmp
-                     }
-                     callNextMethod()
-                 }
+        if (!missing(i)) {
+         tmp <- referenceSeq(x)
+         tmp[i] <- referenceSeq(value)
+         x@referenceSeq <- tmp
+        }
+        callNextMethod()
+    }
 )
 
 
