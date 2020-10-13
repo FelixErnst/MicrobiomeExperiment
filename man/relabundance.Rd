@@ -4,9 +4,9 @@
 \alias{relabundance}
 \alias{relabundance<-}
 \alias{relAbundanceCounts}
-\alias{relabundance,MicrobiomeExperiment-method}
-\alias{relabundance<-,MicrobiomeExperiment-method}
-\alias{relAbundanceCounts,MicrobiomeExperiment-method}
+\alias{relabundance,SummarizedExperiment-method}
+\alias{relabundance<-,SummarizedExperiment-method}
+\alias{relAbundanceCounts,SummarizedExperiment-method}
 \title{Getter / setter for relative abundance data}
 \usage{
 relabundance(x, ...)
@@ -15,11 +15,11 @@ relabundance(x) <- value
 
 relAbundanceCounts(x, abund_values = "counts", name = "relabundance")
 
-\S4method{relabundance}{MicrobiomeExperiment}(x)
+\S4method{relabundance}{SummarizedExperiment}(x)
 
-\S4method{relabundance}{MicrobiomeExperiment}(x) <- value
+\S4method{relabundance}{SummarizedExperiment}(x) <- value
 
-\S4method{relAbundanceCounts}{MicrobiomeExperiment}(x, abund_values = "counts", name = "relabundance")
+\S4method{relAbundanceCounts}{SummarizedExperiment}(x, abund_values = "counts", name = "relabundance")
 }
 \arguments{
 \item{x}{a  \code{\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment}}

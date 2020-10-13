@@ -1,6 +1,6 @@
 Package: MicrobiomeExperiment
 Type: Package
-Version: 0.99.0.9005
+Version: 0.99.0.9006
 Date: 2020-10-12
 Authors@R:
     c(person(given = "Felix G.M.", family = "Ernst", role = c("aut", "cre"),
@@ -26,6 +26,8 @@ Imports:
     Biostrings,
     SingleCellExperiment,
     SummarizedExperiment,
+    BiocParallel,
+    DelayedArray,
     scater,
     SEtup,
     biomformat,

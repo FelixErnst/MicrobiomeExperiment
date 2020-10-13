@@ -61,7 +61,7 @@ setMethod("mergeRows", signature = c(x = "TreeSummarizedExperiment"),
           stop("'mergeTree' must be TRUE or FALSE.", call. = FALSE)
         }
         #
-        x <- callNextMethod()
+        x <- callNextMethod(x, f, archetype = 1L, ...)
         # optionally merge rowTree
         row_tree <- rowTree(x)
         if(!is.null(row_tree) && mergeTree){
@@ -85,7 +85,7 @@ setMethod("mergeCols", signature = c(x = "TreeSummarizedExperiment"),
           stop("'mergeTree' must be TRUE or FALSE.", call. = FALSE)
         }
         #
-        x <- callNextMethod()
+        x <- callNextMethod(x, f, archetype = 1L, ...)
         # optionally merge colTree
         col_tree <- colTree(x)
         if(!is.null(col_tree) && mergeTree){

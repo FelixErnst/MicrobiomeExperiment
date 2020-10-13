@@ -43,36 +43,37 @@ setGeneric("relAbundanceCounts", signature = c("x"),
 
 #' @rdname relabundance
 #' @export
-setMethod("relabundance",signature = c(x = "MicrobiomeExperiment"),
-  function(x){
-    assays(x)[["relabundance"]]
-  }
-)
-
-#' @rdname relabundance
-#' @export
-setReplaceMethod("relabundance", signature = c(x = "MicrobiomeExperiment"),
-  function(x, value){
-   assays(x)[["relabundance"]] <- value
-   x
-  }
-)
-
-#' @rdname relabundance
-#' @export
-setMethod("relAbundanceCounts",signature = c(x = "MicrobiomeExperiment"),
-  function(x, abund_values = "counts", name = "relabundance"){
-    # input check
-    if(!.is_non_empty_string(name)){
-        stop("'name' must be a single non-empty character value.",
-             call. = FALSE)
+setMethod("relabundance",signature = c(x = "SummarizedExperiment"),
+    function(x){
+        assays(x)[["relabundance"]]
     }
-    .check_abund_values(abund_values, x)
-    #
-    data <- assays(x)[[abund_values]]
-    value <- t(t(data)/colSums(data))
-    dimnames(value) <- dimnames(data)
-    assays(x)[[name]] <- value
-    x
-  }
+)
+
+#' @rdname relabundance
+#' @export
+setReplaceMethod("relabundance", signature = c(x = "SummarizedExperiment"),
+    function(x, value){
+        assays(x)[["relabundance"]] <- value
+        x
+    }
+)
+
+#' @rdname relabundance
+#' @importFrom SummarizedExperiment assay assay<-
+#' @export
+setMethod("relAbundanceCounts",signature = c(x = "SummarizedExperiment"),
+    function(x, abund_values = "counts", name = "relabundance"){
+        # input check
+
+        if(!.is_non_empty_string(name)){
+            stop("'name' must be a single non-empty character value.",
+                 call. = FALSE)
+        }
+        .check_abund_values(abund_values, x)
+        #
+        assay(x, name) <- sweep(assay(x, abund_values), 2,
+                                colSums(assay(x, abund_values)),
+                                "/")
+        x
+    }
 )
