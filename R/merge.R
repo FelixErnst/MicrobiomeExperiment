@@ -1,8 +1,5 @@
-#' @name merge-methods
+#' Merge a subset of the rows or cols
 #'
-#' @title Merge a subset of the rows or cols
-#'
-#' @description
 #' In the context of microbiome analysis, it might be desirable to merge data
 #' based on taxonomic levels. \code{mergeRows} implements the low level function
 #' for more detail have a look at
@@ -32,6 +29,8 @@
 #'   merged into one entry in all relevant components.
 #'
 #' @seealso \code{\link[=agglomerate-methods]{agglomerateByRank}}
+#'
+#' @name merge-methods
 #'
 #' @examples
 #' data(esophagus)

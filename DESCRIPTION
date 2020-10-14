@@ -1,7 +1,7 @@
 Package: MicrobiomeExperiment
 Type: Package
-Version: 0.99.0.9006
-Date: 2020-10-12
+Version: 0.99.0.9007
+Date: 2020-10-14
 Authors@R:
     c(person(given = "Felix G.M.", family = "Ernst", role = c("aut", "cre"),
              email = "felix.gm.ernst@outlook.com",
@@ -19,17 +19,17 @@ LazyData: false
 Depends:
     R (>= 3.6),
     TreeSummarizedExperiment,
-    S4Vectors
+    Biostrings,
+    SEtup
 Imports:
     methods,
+    S4Vectors,
     IRanges,
-    Biostrings,
     SingleCellExperiment,
     SummarizedExperiment,
     BiocParallel,
     DelayedArray,
     scater,
-    SEtup,
     biomformat,
     ape,
     tibble,
@@ -50,11 +50,14 @@ Collate:
     'MicrobiomeExperiment.R'
     'MicrobiomeExperiment-class.R'
     'agglomerate.R'
+    'calculateJSD.R'
+    'calculateUniFrac.R'
     'makeMicrobiomeExperimentFromDADA2.R'
     'makeMicrobiomeExperimentFrombiom.R'
     'makeMicrobiomeExperimentFromphyloseq.R'
     'merge.R'
     'relabundance.R'
+    'runMDS2.R'
     'taxonomy.R'
     'utils.R'
 RoxygenNote: 7.1.1

@@ -9,7 +9,8 @@
 MicrobiomeExperiment(..., referenceSeq = NULL)
 }
 \arguments{
-\item{...}{Arguments passed to \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}}
+\item{...}{Arguments passed to
+\code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}}
 
 \item{referenceSeq}{a \code{DNAStringSet} object or some object
 coercible to a \code{DNAStringSet} object. See
