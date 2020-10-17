@@ -6,6 +6,12 @@
 #' @param x a \linkS4class{SingleCellExperiment} containing a numeric matrix of
 #'   log-expression values where rows are features and columns are cells.
 #'
+#' @param exprs_values a single \code{character} value for specifying which
+#'   assay to use for calculation.
+#'
+#' @param FUN a \code{function} or \code{character} value with a function name
+#'   returning a \code{\link[stats:dist]{dist}} object
+#'
 #' @param ... additional arguments to pass to
 #'   \code{\link[SEtup:calculateMDS2]{calculateMDS2}} and \code{FUN}.
 #'
@@ -41,7 +47,8 @@
 #'
 #' @examples
 #' data(esophagus)
-#' esophagus <- runMDS2(esophagus, FUN = calculateUniFrac, name = "UniFrac")
+#' esophagus <- runMDS2(esophagus, FUN = calculateUniFrac, name = "UniFrac",
+#'                      tree = rowTree(esophagus))
 #' reducedDim(esophagus)
 NULL
 

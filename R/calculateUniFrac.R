@@ -11,8 +11,8 @@
 #'   \code{\link[TreeSummarizedExperiment:phylo]{phylo}} object matching the
 #'   amtrix, especially the number of columns.
 #'
-#' @param values a single \code{character} value for specifying which assay to
-#'   use for calculation.
+#' @param exprs_values a single \code{character} value for specifying which
+#'   assay to use for calculation.
 #'
 #' @param weighted \code{TRUE} or \code{FALSE}: Should use weighted-UniFrac
 #'   calculation? Weighted-UniFrac takes into account the relative abundance of
@@ -35,11 +35,6 @@
 #' @param ... optional arguments not used.
 #'
 #' @return a sample-by-sample distance matrix, suitable for NMDS, etc.
-#'
-#' @seealso
-#' \itemize{
-#'   \item{}
-#' }
 #'
 #' @references
 #' \url{http://bmf.colorado.edu/unifrac/}

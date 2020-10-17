@@ -50,12 +50,12 @@ always normalized by total branch-length, and so this value is ignored when
 \code{\link[BiocParallel:BiocParallelParam-class]{BiocParallelParam}}
 object specifying whether the UniFrac calculation should be parallelized.}
 
+\item{exprs_values}{a single \code{character} value for specifying which
+assay to use for calculation.}
+
 \item{transposed}{Logical scalar, is x transposed with cells in rows?}
 
 \item{...}{optional arguments not used.}
-
-\item{values}{a single \code{character} value for specifying which assay to
-use for calculation.}
 }
 \value{
 a sample-by-sample distance matrix, suitable for NMDS, etc.
@@ -98,11 +98,6 @@ microbial communities.'' Appl Environ Microbiol. 2007
 
 Lozupone C, Knight R. ``UniFrac: a new phylogenetic method for comparing
 microbial communities.'' Appl Environ Microbiol. 2005 71 (12):8228-35.
-}
-\seealso{
-\itemize{
-  \item{}
-}
 }
 \author{
 Paul J. McMurdie.

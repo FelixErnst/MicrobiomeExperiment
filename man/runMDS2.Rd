@@ -23,11 +23,17 @@ log-expression values where rows are features and columns are cells.}
 \item{...}{additional arguments to pass to
 \code{\link[SEtup:calculateMDS2]{calculateMDS2}} and \code{FUN}.}
 
+\item{exprs_values}{a single \code{character} value for specifying which
+assay to use for calculation.}
+
 \item{dimred}{String or integer scalar specifying the existing dimensionality
 reduction results to use.}
 
 \item{n_dimred}{Integer scalar or vector specifying the dimensions to use if
 dimred is specified.}
+
+\item{FUN}{a \code{function} or \code{character} value with a function name
+returning a \code{\link[stats:dist]{dist}} object}
 
 \item{altexp}{String or integer scalar specifying an alternative experiment
 containing the input data.}
@@ -49,7 +55,8 @@ The function \code{\link{cmdscale}} is used internally to compute
 }
 \examples{
 data(esophagus)
-esophagus <- runMDS2(esophagus, FUN = calculateUniFrac, name = "UniFrac")
+esophagus <- runMDS2(esophagus, FUN = calculateUniFrac, name = "UniFrac",
+                     tree = rowTree(esophagus))
 reducedDim(esophagus)
 }
 \seealso{

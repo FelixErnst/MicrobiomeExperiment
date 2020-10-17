@@ -7,8 +7,8 @@
 #'   \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}
 #'   object containing a tree.
 #'
-#' @param values a single \code{character} value for specifying which assay to
-#'   use for calculation.
+#' @param exprs_values a single \code{character} value for specifying which
+#'   assay to use for calculation.
 #'
 #' @param BPPARAM A
 #'   \code{\link[BiocParallel:BiocParallelParam-class]{BiocParallelParam}}
