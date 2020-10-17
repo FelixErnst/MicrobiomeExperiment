@@ -144,27 +144,28 @@ setMethod("calculateUniFrac", signature = c(x = "TreeSummarizedExperiment",
 #' @export
 runUniFrac <- function(x, tree, weighted = FALSE, normalized = TRUE,
                        BPPARAM = SerialParam()){
-    # x has samples as row. Therefore transpose
+    # x has samples as row. Therefore transpose. This benchmarks faster than
+    # converting the function to work with the input matrix as is
     x <- t(x)
     # input check
     if(!.is_a_bool(weighted)){
-        stop("'weighted' must be TRU or FALSE.", call. = FALSE)
+      stop("'weighted' must be TRU or FALSE.", call. = FALSE)
     }
     if(!.is_a_bool(normalized)){
-        stop("'normalized' must be TRU or FALSE.", call. = FALSE)
+      stop("'normalized' must be TRU or FALSE.", call. = FALSE)
     }
     #
     tree <- .norm_tree_to_be_rooted(tree, rownames(x))
     if(is.null(colnames(x)) || is.null(rownames(x))){
-        stop("colnames and rownames must not be NULL", call. = FALSE)
+      stop("colnames and rownames must not be NULL", call. = FALSE)
     }
     #
     old <- getAutoBPPARAM()
     setAutoBPPARAM(BPPARAM)
     on.exit(setAutoBPPARAM(old))
     if (!(bpisup(BPPARAM) || is(BPPARAM, "MulticoreParam"))) {
-        bpstart(BPPARAM)
-        on.exit(bpstop(BPPARAM), add = TRUE)
+      bpstart(BPPARAM)
+      on.exit(bpstop(BPPARAM), add = TRUE)
     }
     #
     # create N x 2 matrix of all pairwise combinations of samples.
@@ -201,8 +202,8 @@ runUniFrac <- function(x, tree, weighted = FALSE, normalized = TRUE,
     # Loop over internal nodes, summing their descendants to get that nodes
     # count
     for(i in ord.node){
-        edge_array[i,] <- colSums(edge_array[node.desc[i-ntip,], , drop=FALSE],
-                                  na.rm = TRUE)
+      edge_array[i,] <- colSums(edge_array[node.desc[i-ntip,], , drop=FALSE],
+                                na.rm = TRUE)
     }
     # Keep only those with a parental edge (drops root) and order to match
     # tree$edge
@@ -229,7 +230,7 @@ runUniFrac <- function(x, tree, weighted = FALSE, normalized = TRUE,
         # Normalize this sum to the total branches among these two samples, A and
         # B
         uwUFpairdist <- edge_uni_AB_sum /
-            sum(tree$edge.length[edge_occ_AB_rS > 0])
+          sum(tree$edge.length[edge_occ_AB_rS > 0])
         uwUFpairdist
     }
     # if not-normalized weighted UniFrac, just return "numerator";
@@ -313,8 +314,8 @@ runUniFrac <- function(x, tree, weighted = FALSE, normalized = TRUE,
     #
     stats::as.dist(UniFracMat)
 }
-################################################################################
 
+################################################################################
 
 #' @importFrom ape is.rooted root
 .norm_tree_to_be_rooted <- function(tree, names){
