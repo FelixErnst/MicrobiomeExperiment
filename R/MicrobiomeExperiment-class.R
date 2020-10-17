@@ -1,24 +1,21 @@
-#' @include MicrobiomeExperiment.R
-NULL
-
 #' The MicrobiomeExperiment class
 #'
 #' SummarizedExperiment-like class for microbiome data.
 #'
-#' @param ... Arguments passed to \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}
+#' @param ... Arguments passed to
+#'   \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}
+#'
 #' @param referenceSeq a \code{DNAStringSet} object or some object
 #'   coercible to a \code{DNAStringSet} object. See
 #'   \code{\link[Biostrings:XStringSet-class]{DNAStringSet}} for more
 #'   details.
 #'
-#'
 #' @name MicrobiomeExperiment-class
 #'
 #' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
-#' @importFrom Biostrings DNAStringSet
 #'
 #' @importClassesFrom TreeSummarizedExperiment TreeSummarizedExperiment
-#' @importClassesFrom Biostrings DNAStringSet
+#' @importClassesFrom Biostrings XStringSet DNAStringSet
 #'
 #' @examples
 #' data(taxa)
