@@ -20,14 +20,11 @@
 #' }
 makeMicrobiomeExperimentFromphyloseq <- function(obj) {
     # input check
-    if(!requireNamespace("phyloseq")){
-        stop("'phyloseq' package not found. Please install it to use this ",
-             "function.",
-             call. = FALSE)
-    }
+    .require_package("phyloseq")
     if(!is(obj,"phyloseq")){
         stop("'obj' must be a 'phyloseq' object")
     }
+    #
     assays <- SimpleList(counts = obj@otu_table@.Data)
     rowData <- S4Vectors:::make_zero_col_DataFrame(nrow(assays$counts))
     colData <- S4Vectors:::make_zero_col_DataFrame(ncol(assays$counts))

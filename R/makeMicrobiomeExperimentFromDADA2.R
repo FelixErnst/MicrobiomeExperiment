@@ -15,11 +15,7 @@
 #' @export
 makeMicrobiomeExperimentFromDADA2 <- function(...) {
     # input checks
-    if(!requireNamespace("dada2")){
-        stop("'dada2' package not found. Please install it to use this ",
-             "function.",
-             call. = FALSE)
-    }
+    .require_package("dada2")
     #
     mergers <- dada2::mergePairs(...)
     seqtab <- dada2::makeSequenceTable(mergers)

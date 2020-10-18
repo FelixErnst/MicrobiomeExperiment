@@ -1,12 +1,12 @@
 ################################################################################
 # integration with other packages
 
-.require_scater <- function(){
-  if(!requireNamespace("scater")){
-    stop("Please install the 'scater' package.", call. = FALSE)
+.require_package <- function(pkg){
+  if(!requireNamespace(pkg)){
+    stop("'",pkg,"' package not found. Please install the '",pkg,"' package ",
+         "to use this function.", call. = FALSE)
   }
 }
-
 
 ################################################################################
 # testing
