@@ -49,7 +49,7 @@ test_that("taxonomy", {
   actual <- MicrobiomeExperiment:::.get_taxonomic_label(xtse, empty.fields = c(NA))
   expect_type(actual,"character")
   expect_length(actual,nrow(xtse))
-  expect_equal(actual[1:3],c("Family_c","Phylum_a","Family_d"))
+  expect_equal(actual[1:3],c("Family::c","Phylum::a","Family::d"))
   actual <- MicrobiomeExperiment:::.get_taxonomic_label(xtse[-c(2,8),], empty.fields = c(NA))
   expect_type(actual,"character")
   expect_length(actual,nrow(xtse)-2)

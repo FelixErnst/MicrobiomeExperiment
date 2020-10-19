@@ -11,6 +11,8 @@
 \alias{taxonomyRankEmpty,SummarizedExperiment-method}
 \alias{checkTaxonomy}
 \alias{checkTaxonomy,SummarizedExperiment-method}
+\alias{getTaxonomyLabels}
+\alias{getTaxonomyLabels,SummarizedExperiment-method}
 \title{Taxonomy related functions}
 \format{
 a \code{character} vector of length 8 containing the taxonomy ranks
@@ -37,10 +39,21 @@ taxonomyRankEmpty(
 
 checkTaxonomy(x, ...)
 
-\S4method{checkTaxonomy}{SummarizedExperiment}(x, checkWrap = TRUE)
+\S4method{checkTaxonomy}{SummarizedExperiment}(x)
+
+getTaxonomyLabels(x, ...)
+
+\S4method{getTaxonomyLabels}{SummarizedExperiment}(
+  x,
+  empty.fields = c(NA, "", " ", "\\t", "-"),
+  withType = FALSE,
+  makeUnique = TRUE
+)
 }
 \arguments{
-\item{x}{\code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}}
+\item{x}{a
+\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}
+object}
 
 \item{rank}{a single character defining a taxonomic rank. Must be a value of
 \code{taxonomicRanks()} function.}
@@ -51,8 +64,12 @@ removed if \code{na.rm = TRUE} before agglomeration.}
 
 \item{...}{optional arguments not used currently.}
 
-\item{checkWrap}{\code{TRUE} or \code{FALSE}: Should the wrapping characters
-be removed, before checking? (default: \code{checkWrap = TRUE})}
+\item{withType}{\code{TRUE} or \code{FALSE}: Should the level be add as a
+suffix? For example: "Phylum:Crenarchaeota" (default:
+\code{withType = FALSE})}
+
+\item{makeUnique}{\code{TRUE} or \code{FALSE}: Should the labels be made
+unique, if there are any duplicates? (default: \code{makeUnique = TRUE})}
 }
 \value{
 \itemize{
@@ -73,6 +90,10 @@ as columns containing taxonomic information.
   it contains any problems. This is a soft test, which reports some
   diagnostic and might mature into a data validator used upon object
   creation.
+
+\code{getTaxonomyLabels} generate a character vector per row consisting of
+  the lowest taxonomic information possible. If data from different levels,
+  is to be mixed, the taxonomic level is prepended by default.
 }
 \examples{
 data(esophagus)
