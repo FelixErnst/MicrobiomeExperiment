@@ -12,7 +12,7 @@
   x,
   rank = taxonomyRanks(x)[1],
   onRankOnly = FALSE,
-  na.rm = TRUE,
+  na.rm = FALSE,
   empty.fields = c(NA, "", " ", "\\t", "-"),
   agglomerateTree = FALSE
 )

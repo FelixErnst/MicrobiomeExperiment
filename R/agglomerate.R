@@ -67,9 +67,9 @@ NULL
 setGeneric("agglomerateByRank",
            signature = "x",
            function(x, rank = taxonomyRanks(x)[1L], onRankOnly = FALSE,
-                    na.rm = TRUE, empty.fields = c(NA, "", " ", "\t", "-"),
+                    na.rm = FALSE, empty.fields = c(NA, "", " ", "\t", "-"),
                     agglomerateTree = FALSE)
-             standardGeneric("agglomerateByRank"))
+               standardGeneric("agglomerateByRank"))
 
 
 #' @rdname agglomerate-methods
@@ -79,59 +79,60 @@ setGeneric("agglomerateByRank",
 #'
 #' @export
 setMethod("agglomerateByRank", signature = c(x = "SummarizedExperiment"),
-  function(x, rank = taxonomyRanks(x)[1], onRankOnly = FALSE, na.rm = TRUE,
-           empty.fields = c(NA, "", " ", "\t", "-"), agglomerateTree = FALSE){
-    # input check
-    if(!.is_non_empty_string(rank)){
-      stop("'rank' must be an non empty single character value.", call. = FALSE)
-    }
-    if(!.is_a_bool(onRankOnly)){
-      stop("'onRankOnly' must be TRUE or FALSE.", call. = FALSE)
-    }
-    if(!.is_a_bool(na.rm)){
-      stop("'na.rm' must be TRUE or FALSE.", call. = FALSE)
-    }
-    if(ncol(rowData(x)) == 0L){
-      stop("taxonomyData needs to be populated.", call. = FALSE)
-    }
-    .check_taxonomic_rank(rank, x)
-    if(!.is_a_bool(agglomerateTree)){
-      stop("'agglomerateTree' must be TRUE or FALSE.", call. = FALSE)
-    }
-    .check_for_taxonomic_data_order(x)
-    #
+    function(x, rank = taxonomyRanks(x)[1], onRankOnly = FALSE, na.rm = FALSE,
+       empty.fields = c(NA, "", " ", "\t", "-"), agglomerateTree = FALSE){
+        # input check
+        if(!.is_non_empty_string(rank)){
+            stop("'rank' must be an non empty single character value.",
+                 call. = FALSE)
+        }
+        if(!.is_a_bool(onRankOnly)){
+            stop("'onRankOnly' must be TRUE or FALSE.", call. = FALSE)
+        }
+        if(!.is_a_bool(na.rm)){
+            stop("'na.rm' must be TRUE or FALSE.", call. = FALSE)
+        }
+        if(ncol(rowData(x)) == 0L){
+            stop("taxonomyData needs to be populated.", call. = FALSE)
+        }
+        .check_taxonomic_rank(rank, x)
+        if(!.is_a_bool(agglomerateTree)){
+            stop("'agglomerateTree' must be TRUE or FALSE.", call. = FALSE)
+        }
+        .check_for_taxonomic_data_order(x)
+        #
 
-    # Make a vector from the taxonomic data.
-    col <- which( taxonomyRanks(x) %in% rank )
-    tax_cols <- .get_tax_cols_from_se(x)
+        # Make a vector from the taxonomic data.
+        col <- which( taxonomyRanks(x) %in% rank )
+        tax_cols <- .get_tax_cols_from_se(x)
 
-    # if na.rm is TRUE, remove the empty, white-space, NA values from
-    # tree will be pruned later, if agglomerateTree = TRUE
-    if( na.rm ){
-      tax <- as.character(rowData(x)[,tax_cols[col]])
-      f <- !(tax %in% empty.fields)
-      x <- x[f, , drop=FALSE]
+        # if na.rm is TRUE, remove the empty, white-space, NA values from
+        # tree will be pruned later, if agglomerateTree = TRUE
+        if( na.rm ){
+            tax <- as.character(rowData(x)[,tax_cols[col]])
+            f <- !(tax %in% empty.fields)
+            x <- x[f, , drop=FALSE]
+        }
+
+        # get groups of taxonomy entries
+        tax_factors <- .get_tax_groups(x, col = col, onRankOnly = onRankOnly)
+
+        # merge taxa
+        x <- mergeRows(x, f = tax_factors, mergeTree = agglomerateTree)
+
+        # "Empty" the values to the right of the rank, using NA_character_.
+        if( col < length(taxonomyRanks(x)) ){
+            badcolumns <- tax_cols[seq_along(tax_cols) > col]
+            if(length(badcolumns) > 0L){
+                row_data <- rowData(x)
+                row_data[, badcolumns] <- NA_character_
+                rowData(x) <- row_data
+            }
+        }
+        # adjust rownames
+        rownames(x) <- .get_taxonomic_label(x, empty.fields)
+        x
     }
-
-    # get groups of taxonomy entries
-    tax_factors <- .get_tax_groups(x, col = col, onRankOnly = onRankOnly)
-
-    # merge taxa
-    x <- mergeRows(x, f = tax_factors, mergeTree = agglomerateTree)
-
-    # "Empty" the values to the right of the rank, using NA_character_.
-    if( col < length(taxonomyRanks(x)) ){
-      badcolumns <- tax_cols[seq_along(tax_cols) > col]
-      if(length(badcolumns) > 0L){
-        row_data <- rowData(x)
-        row_data[, badcolumns] <- NA_character_
-        rowData(x) <- row_data
-      }
-    }
-    # adjust rownames
-    rownames(x) <- .get_taxonomic_label(x, empty.fields)
-    x
-  }
 )
 
 setGeneric("getAgglomerateData",
@@ -139,7 +140,7 @@ setGeneric("getAgglomerateData",
            function(x, ranks = taxonomyRanks(x)[1:2],
                     empty.fields = c(NA, "", " ", "\t", "-"),
                     rankThresholds = 0)
-             standardGeneric("getAgglomerateData"))
+               standardGeneric("getAgglomerateData"))
 
 #' @rdname agglomerate-methods
 #' @aliases getAgglomerateData
@@ -153,37 +154,37 @@ setGeneric("getAgglomerateData",
 #'
 #' @export
 setMethod("getAgglomerateData", signature = c(x = "TreeSummarizedExperiment"),
-  function(x, ranks = taxonomyRanks(x)[1:2],
-           empty.fields = c(NA, "", " ", "\t", "-"),
-           rankThresholds = 0){
-    # input checks
-    if(!.is_non_empty_character(ranks)){
-      stop("'ranks' must be a character vector with no empty values.",
-           call. = FALSE)
+    function(x, ranks = taxonomyRanks(x)[1:2],
+       empty.fields = c(NA, "", " ", "\t", "-"),
+       rankThresholds = 0){
+        # input checks
+        if(!.is_non_empty_character(ranks)){
+            stop("'ranks' must be a character vector with no empty values.",
+                 call. = FALSE)
+        }
+        if(ncol(rowData(x)) == 0L){
+            stop("taxonomyData needs to be populated.", call. = FALSE)
+        }
+        .check_taxonomic_ranks(ranks, x)
+        .check_for_taxonomic_data_order(x)
+        if(!all(.is_numeric_string(rankThresholds))){
+            stop("'rankThresholds' must be numeric vector.", call. = FALSE)
+        }
+        if(length(rankThresholds) != 1L &&
+         length(rankThresholds) != length(ranks)){
+            stop("'rankThresholds' must have the length == 1L or the same lenght as ",
+                 "'ranks'.", call. = FALSE)
+        }
+        if(length(rankThresholds) == 1L){
+            rankThresholds <- rep(rankThresholds,length(ranks))
+        }
+        #
+        data <- .get_agglomerate_data(x, ranks)
+        data <- .blank_empty_data(data, ranks, empty.fields, rankThresholds)
+        ans <- data %>%
+          pivot_longer(cols = !contains(ranks), names_to = "Samples", values_to = "RelAbundance")
+        ans
     }
-    if(ncol(rowData(x)) == 0L){
-      stop("taxonomyData needs to be populated.", call. = FALSE)
-    }
-    .check_taxonomic_ranks(ranks, x)
-    .check_for_taxonomic_data_order(x)
-    if(!all(.is_numeric_string(rankThresholds))){
-      stop("'rankThresholds' must be numeric vector.", call. = FALSE)
-    }
-    if(length(rankThresholds) != 1L &&
-       length(rankThresholds) != length(ranks)){
-      stop("'rankThresholds' must have the length == 1L or the same lenght as ",
-           "'ranks'.", call. = FALSE)
-    }
-    if(length(rankThresholds) == 1L){
-      rankThresholds <- rep(rankThresholds,length(ranks))
-    }
-    #
-    data <- .get_agglomerate_data(x, ranks)
-    data <- .blank_empty_data(data, ranks, empty.fields, rankThresholds)
-    ans <- data %>%
-      pivot_longer(cols = !contains(ranks), names_to = "Samples", values_to = "RelAbundance")
-    ans
-  }
 )
 
 #' @importFrom SummarizedExperiment colData assays
@@ -191,51 +192,51 @@ setMethod("getAgglomerateData", signature = c(x = "TreeSummarizedExperiment"),
 #' @importFrom tibble as_tibble
 #' @importFrom rlang :=
 .get_agglomerate_data <- function(x, ranks){
-  ans <- assays(x)$relabundance %>%
-    as_tibble()
-  for(i in seq_along(ranks)){
-    rank <- rev(ranks)[i]
-    ans <- ans %>%
-      mutate(!!rank := factor(rowData(x)[,rank]),
-             .before = everything())
-  }
-  ans
+    ans <- assays(x)$relabundance %>%
+        as_tibble()
+    for(i in seq_along(ranks)){
+        rank <- rev(ranks)[i]
+        ans <- ans %>%
+            mutate(!!rank := factor(rowData(x)[,rank]),
+                   .before = everything())
+    }
+    ans
 }
 
 #' @importFrom dplyr %>% select contains
 .check_for_rank_threshold <- function(data, .rank, ranks, rankThreshold){
-  mean(colSums(data %>% select(!contains(ranks)))) >= rankThreshold
+    mean(colSums(data %>% select(!contains(ranks)))) >= rankThreshold
 }
 
 #' @importFrom dplyr %>% group_by group_map across group_keys pull
 .blank_empty_data <- function(data, ranks, empty.fields, rankThresholds){
-  data[,ranks] <- lapply(data[,ranks],
-                         function(d){
-                           d[d %in% empty.fields] <- NA
-                           factor(as.character(d),unique(d))
-                         })
-  na_values <- mapply(
-    function(i, rankThreshold){
-      rank <- ranks[i]
-      previous_ranks <- ranks[seq_along(ranks) < i]
-      data_grouped <- data %>%
-        group_by(across(c(previous_ranks,rank)))
-      threshold_passed <- data_grouped %>%
-        group_map(.f = .check_for_rank_threshold, ranks, rankThreshold)
-      threshold_passed <- unlist(threshold_passed)
-      keys <- data_grouped %>%
-        group_keys() %>%
-        pull(!!rank)
-      unique(as.character(keys[!threshold_passed]))
-    },
-    seq_along(ranks),
-    rankThresholds)
-  data[,ranks] <- mapply(
-    function(d, na_val){
-      d[d %in% na_val] <- NA
-      d
-    },
-    data[,ranks],
-    na_values)
-  data
+    data[,ranks] <- lapply(data[,ranks],
+                           function(d){
+                               d[d %in% empty.fields] <- NA
+                               factor(as.character(d),unique(d))
+                           })
+    na_values <- mapply(
+        function(i, rankThreshold){
+            rank <- ranks[i]
+            previous_ranks <- ranks[seq_along(ranks) < i]
+            data_grouped <- data %>%
+                group_by(across(c(previous_ranks,rank)))
+            threshold_passed <- data_grouped %>%
+                group_map(.f = .check_for_rank_threshold, ranks, rankThreshold)
+            threshold_passed <- unlist(threshold_passed)
+            keys <- data_grouped %>%
+                group_keys() %>%
+                pull(!!rank)
+            unique(as.character(keys[!threshold_passed]))
+        },
+        seq_along(ranks),
+        rankThresholds)
+    data[,ranks] <- mapply(
+        function(d, na_val){
+            d[d %in% na_val] <- NA
+            d
+        },
+        data[,ranks],
+        na_values)
+    data
 }
