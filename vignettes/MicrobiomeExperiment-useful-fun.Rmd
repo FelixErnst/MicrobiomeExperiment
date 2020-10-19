@@ -1,0 +1,95 @@
+---
+title: "Useful functions for working with *MicrobiomeExperiment*"
+date: "`r Sys.Date()`"
+package: MicrobiomeExperiment
+output:
+  BiocStyle::html_document:
+    fig_height: 7
+    fig_width: 10
+    toc: yes
+    toc_depth: 2
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{MicrobiomeExperiment-fun}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: references.bib
+---
+
+
+```{r}
+knitr::opts_chunk$set(cache=FALSE, fig.width=9, message=FALSE, warning=FALSE)
+```
+
+# Introduction
+
+This vignette lists a bunch of useful functions for working with 
+*MicrobiomeExperiment* objects and their package of origin.
+
+**Since *MicrobiomeExperiment* are *SingleCellExperiment* objects a lot of these functions are general functions for working with count data. Use these functions based on your knowledge/aim and not because everybody else is using them**
+
+## QC
+
+```{r}
+funs <- data.frame(name = c("calculateAverage"),
+                   package = c("scater"),
+                   functions = c("calculate the average across feature"),
+                   situation = c("for checking the mean abundance of microbiome features"))
+```
+
+```{r}
+knitr::kable(
+  funs, caption = 'QC functions for working with MicrobiomeExperiment'
+)
+```
+
+## Aggregation
+
+
+```{r}
+funs <- data.frame(name = c(),
+                   package = c(),
+                   functions = c(),
+                   situation = c())
+```
+
+```{r}
+knitr::kable(
+  funs, caption = 'Aggregation functions for working with MicrobiomeExperiment'
+)
+```
+
+## Dimension reduction
+
+
+```{r}
+funs <- data.frame(name = c(),
+                   package = c(),
+                   functions = c(),
+                   situation = c())
+```
+
+```{r}
+knitr::kable(
+  funs, caption = 'Functions for dimension reduction on data of a MicrobiomeExperiment'
+)
+```
+
+## Plotting
+
+
+```{r}
+funs <- data.frame(name = c(),
+                   package = c(),
+                   functions = c(),
+                   situation = c())
+```
+
+```{r}
+knitr::kable(
+  funs, caption = 'Plotting functions for working with MicrobiomeExperiment'
+)
+```
+
+## Other 
+
