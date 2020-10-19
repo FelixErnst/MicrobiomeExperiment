@@ -28,10 +28,9 @@ NULL
 
 #' @rdname biom-load
 #'
-#' @importFrom biomformat read_biom
-#'
 #' @export
 loadFromBiom <- function(file) {
+    .require_package("biomformat")
     biom <- biomformat::read_biom(file)
     as(biom, "MicrobiomeExperiment")
 }
@@ -40,14 +39,14 @@ loadFromBiom <- function(file) {
 #'
 #' @param obj object of type \code{\link[biomformat:read_biom]{biom}}
 #'
-#' @importFrom biomformat biom_data sample_metadata
-#'   observation_metadata
-#'
 #' @export
 makeMicrobiomeExperimentFromBiom <- function(obj){
+    # input check
+    .require_package("biomformat")
     if(!is(obj,"biom")){
         stop("'obj' must be a 'biom' object")
     }
+    #
     counts <- as(biomformat::biom_data(obj), "matrix")
     sample_data <- biomformat::sample_metadata(obj)
     feature_data <- biomformat::observation_metadata(obj)

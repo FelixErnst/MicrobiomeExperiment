@@ -16,12 +16,13 @@ Currently this includes:
 In this package
 
 - ~addition of reference sequences slots~
-- addition of specialized taxonomic container, if possible
-- alpha and beta diversity measure
+- addition of specialized taxonomic container, if necessary
 - ...
 
 In other packages
 
+- alpha and beta diversity measure (Mia)
+- plotting functions
 - ...
 
 # Contribution
@@ -36,5 +37,5 @@ against the `master` branch and then merged to `release` for release.
 
 # Code of conduct
 
-Please note that the iSEE project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+Please note that the MicrobiomeExperiment project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
