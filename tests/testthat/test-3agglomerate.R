@@ -31,9 +31,12 @@ test_that("agglomerate", {
   actual <- agglomerateByRank(xtse,"Phylum",na.rm=FALSE)
   expect_equivalent(rowData(actual),rowData(actual_phylum))
   #
-  actual <- agglomerateByRank(xtse,"Family")
+  actual <- agglomerateByRank(xtse,"Family", na.rm = TRUE)
   expect_equal(dim(actual),c(6,10))
   expect_equal(rowData(actual)$Family,c("c","d","e","f","g","h"))
+  actual <- agglomerateByRank(xtse,"Family", na.rm = FALSE) # the default
+  expect_equal(dim(actual),c(8,10))
+  expect_equal(rowData(actual)$Family,c("c",NA,"d","e","f","g","h",NA))
   actual <- agglomerateByRank(xtse,"Phylum")
   expect_equivalent(rowData(actual),rowData(actual_phylum))
 })

@@ -172,8 +172,8 @@ setMethod("getAgglomerateData", signature = c(x = "TreeSummarizedExperiment"),
         }
         if(length(rankThresholds) != 1L &&
          length(rankThresholds) != length(ranks)){
-            stop("'rankThresholds' must have the length == 1L or the same lenght as ",
-                 "'ranks'.", call. = FALSE)
+            stop("'rankThresholds' must have the length == 1L or the same ",
+                 "length as 'ranks'.", call. = FALSE)
         }
         if(length(rankThresholds) == 1L){
             rankThresholds <- rep(rankThresholds,length(ranks))
@@ -182,7 +182,8 @@ setMethod("getAgglomerateData", signature = c(x = "TreeSummarizedExperiment"),
         data <- .get_agglomerate_data(x, ranks)
         data <- .blank_empty_data(data, ranks, empty.fields, rankThresholds)
         ans <- data %>%
-          pivot_longer(cols = !contains(ranks), names_to = "Samples", values_to = "RelAbundance")
+          pivot_longer(cols = !contains(ranks), names_to = "Samples",
+                       values_to = "RelAbundance")
         ans
     }
 )
