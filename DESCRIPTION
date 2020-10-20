@@ -1,7 +1,7 @@
 Package: MicrobiomeExperiment
 Type: Package
-Version: 0.99.0.9009
-Date: 2020-10-19
+Version: 0.99.0.9010
+Date: 2020-10-20
 Authors@R:
     c(person(given = "Felix G.M.", family = "Ernst", role = c("aut", "cre"),
              email = "felix.gm.ernst@outlook.com",
@@ -53,6 +53,7 @@ Collate:
     'makeMicrobiomeExperimentFromphyloseq.R'
     'merge.R'
     'relabundance.R'
+    'sampleConcentrations.R'
     'taxonomy.R'
     'utils.R'
 RoxygenNote: 7.1.1
