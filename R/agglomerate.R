@@ -76,6 +76,7 @@ setGeneric("agglomerateByRank",
 #' @aliases agglomerateByRank
 #'
 #' @importFrom SummarizedExperiment rowData rowData<-
+#' @importFrom TreeSummarizedExperiment rownames<-
 #'
 #' @export
 setMethod("agglomerateByRank", signature = c(x = "SummarizedExperiment"),
