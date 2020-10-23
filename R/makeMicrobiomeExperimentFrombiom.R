@@ -54,7 +54,3 @@ makeMicrobiomeExperimentFromBiom <- function(obj){
     MicrobiomeExperiment(assays = list(counts = counts), colData = sample_data,
                          rowData = feature_data)
 }
-
-setAs(from="biom", to="MicrobiomeExperiment", function(from) {
-    makeMicrobiomeExperimentFromBiom(from)
-})
