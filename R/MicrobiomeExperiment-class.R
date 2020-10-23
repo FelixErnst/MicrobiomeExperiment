@@ -1,6 +1,15 @@
-#' The MicrobiomeExperiment class
+#' The \code{MicrobiomeExperiment} class
 #'
-#' SummarizedExperiment-like class for microbiome data.
+#' The \code{MicrobiomeExperiment} class is a
+#' \code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}-like
+#' class for microbiome data inheriting from
+#' \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}
+#' and
+#' \code{\link[SingleCellExperiment:SingleCellExperiment]{SingleCellExperiment}}.
+#'
+#' \code{MicrobiomeExperiment} adds to the above mentioned class a slot for
+#' storing a reference sequence as a
+#' \code{\link[Biostrings:XStringSet-class]{DNAStringSet}}.
 #'
 #' @param ... Arguments passed to
 #'   \code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}

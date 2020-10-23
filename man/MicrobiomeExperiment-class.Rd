@@ -4,7 +4,7 @@
 \name{MicrobiomeExperiment-class}
 \alias{MicrobiomeExperiment-class}
 \alias{MicrobiomeExperiment}
-\title{The MicrobiomeExperiment class}
+\title{The \code{MicrobiomeExperiment} class}
 \usage{
 MicrobiomeExperiment(..., referenceSeq = NULL)
 }
@@ -18,7 +18,17 @@ coercible to a \code{DNAStringSet} object. See
 details.}
 }
 \description{
-SummarizedExperiment-like class for microbiome data.
+The \code{MicrobiomeExperiment} class is a
+\code{\link[SummarizedExperiment:SummarizedExperiment-class]{SummarizedExperiment}}-like
+class for microbiome data inheriting from
+\code{\link[TreeSummarizedExperiment:TreeSummarizedExperiment-class]{TreeSummarizedExperiment}}
+and
+\code{\link[SingleCellExperiment:SingleCellExperiment]{SingleCellExperiment}}.
+}
+\details{
+\code{MicrobiomeExperiment} adds to the above mentioned class a slot for
+storing a reference sequence as a
+\code{\link[Biostrings:XStringSet-class]{DNAStringSet}}.
 }
 \examples{
 data(taxa)
