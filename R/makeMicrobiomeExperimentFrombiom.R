@@ -22,7 +22,8 @@
 #'   rich_dense_file  = system.file("extdata", "rich_dense_otu_table.biom",
 #'                                  package = "biomformat")
 #'   x1 <- read_biom(rich_dense_file)
-#'   as(x1, "MicrobiomeExperiment")
+#'   me <- makeMicrobiomeExperimentFromBiom(x1)
+#'   me
 #' }
 NULL
 
