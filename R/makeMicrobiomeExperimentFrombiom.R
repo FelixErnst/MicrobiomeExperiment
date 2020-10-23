@@ -33,7 +33,7 @@ NULL
 loadFromBiom <- function(file) {
     .require_package("biomformat")
     biom <- biomformat::read_biom(file)
-    as(biom, "MicrobiomeExperiment")
+    makeMicrobiomeExperimentFromBiom(biom)
 }
 
 #' @rdname biom-load
