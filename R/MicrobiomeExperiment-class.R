@@ -24,33 +24,40 @@
 #' @importFrom TreeSummarizedExperiment TreeSummarizedExperiment
 #'
 #' @importClassesFrom TreeSummarizedExperiment TreeSummarizedExperiment
-#' @importClassesFrom Biostrings XStringSet DNAStringSet
+#' @importClassesFrom Biostrings XStringSet DNAStringSet XStringSetList
+#'   DNAStringSetList
+#'
+#' @importFrom Biostrings DNAStringSet DNAStringSetList
 #'
 #' @examples
 #' data(taxa)
-#'
 #' sampleNames <- letters[1:4]
 #' pd <- DataFrame(a=letters[1:4], b=1:4)
 #' numcounts <- nrow(taxa) * 4
 #' counts <- matrix(sample(1:1000, numcounts, replace=TRUE),
 #'                  nr = nrow(taxa), nc = 4)
-#'
-#' MicrobiomeExperiment(assays = SimpleList(counts = counts),
-#'                      rowData = taxa,
-#'                      colData = pd)
+#' refSeq <- DNAStringSetList(one = DNAStringSet(c("A","A","A","A","A")),
+#'                            two = DNAStringSet(c("A","A","A","A","A")))
+#' me <- MicrobiomeExperiment(assays = SimpleList(counts = counts),
+#'                            rowData = taxa,
+#'                            colData = pd,
+#'                            referenceSeq = refSeq)
+#' me
 NULL
 
-setClassUnion("DNAStringSet_OR_NULL", c("DNAStringSet","NULL"))
+setClassUnion("DNAStringSetList_OR_DNAStringSet_OR_NULL",
+              c("DNAStringSetList", "DNAStringSet","NULL"))
 
 #' @rdname MicrobiomeExperiment-class
 #' @export
 setClass("MicrobiomeExperiment",
          contains = "TreeSummarizedExperiment",
-         slots = c(referenceSeq = "DNAStringSet_OR_NULL"),
+         slots = c(referenceSeq = "DNAStringSetList_OR_DNAStringSet_OR_NULL"),
          prototype = list(referenceSeq = NULL)
 )
 
-
+#' @rdname MicrobiomeExperiment-internal
+#' @export
 setMethod("vertical_slot_names", "MicrobiomeExperiment",
           function(x) c("referenceSeq", callNextMethod())
 )
@@ -58,6 +65,32 @@ setMethod("vertical_slot_names", "MicrobiomeExperiment",
 ################################################################################
 # validity
 
+.valid.MicrobiomeExperiment <- function(x)
+{
+    x_nrow <- length(x)
+    if(!is.null(x@referenceSeq)){
+        if(is(x@referenceSeq, "DNAStringSet")){
+            referenceSeq_len <- length(x@referenceSeq)
+        } else if(is(x@referenceSeq, "DNAStringSetList")){
+            referenceSeq_len <- lengths(x@referenceSeq)
+            referenceSeq_len <- unique(referenceSeq_len)
+        }
+        if (length(referenceSeq_len) != 1L) {
+            txt <- "\n  lengths of 'referenceSeq' must all be equal."
+            return(txt)
+        }
+        if (referenceSeq_len != x_nrow) {
+            txt <- sprintf(
+                paste0("\n  length(s) of 'referenceSeq' (%d) must equal nb of ",
+                       "rows in 'x' (%d)"),
+                referenceSeq_len, x_nrow)
+            return(txt)
+        }
+    }
+    NULL
+}
+
+S4Vectors::setValidity2("MicrobiomeExperiment", .valid.MicrobiomeExperiment)
 
 ################################################################################
 # constructor
@@ -133,10 +166,17 @@ setGeneric("referenceSeq<-", signature = c("x"),
 #' @export
 setReplaceMethod("referenceSeq", signature = c(x = "MicrobiomeExperiment"),
     function(x, value){
-        if(!is(value,"DNAStringSet")){
-          value <- as(value,"DNAStringSet")
+        if(!is(value,"DNAStringSet") &&
+           !is.list(value) &&
+           !is(value,"DNAStringSetList")){
+            value <- as(value,"DNAStringSet")
+        } else if(!is(value,"DNAStringSetList") &&
+                  is.list(value)){
+            value <- DNAStringSetList(value)
         }
-        .set_referenceSeq(x, value)
+        x <- .set_referenceSeq(x, value)
+        validObject(x)
+        x
     }
 )
 
@@ -152,10 +192,26 @@ setReplaceMethod("referenceSeq", signature = c(x = "MicrobiomeExperiment"),
 setMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY"),
     function(x, i, j, ..., drop = TRUE) {
         if (!missing(i)) {
-          x@referenceSeq <- referenceSeq(x)[i]
+            ans_refSeq <- referenceSeq(x)
+            if(!is.null(ans_refSeq)){
+                if(is(ans_refSeq,"DNAStringSetList")){
+                    ii <- rep(list(i),length(ans_refSeq))
+                    ans_refSeq <- ans_refSeq[ii]
+                } else {
+                    ans_refSeq <- ans_refSeq[i]
+                }
+                x <- BiocGenerics:::replaceSlots(x, ...,
+                                                 referenceSeq = ans_refSeq,
+                                                 check = FALSE)
+            }
         }
 
-        callNextMethod()
+        S4Vectors:::disableValidity(TRUE)
+        on.exit(S4Vectors:::disableValidity(FALSE))
+        x <- callNextMethod()
+        S4Vectors:::disableValidity(FALSE)
+        validObject(x)
+        x
     }
 )
 
@@ -163,15 +219,34 @@ setMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY"),
 setReplaceMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY", "MicrobiomeExperiment"),
     function(x, i, j, ..., value) {
         if (missing(i) && missing(j)) {
-         return(value)
+            return(value)
         }
 
+        ans_refSeq <- referenceSeq(x)
         if (!missing(i)) {
-         tmp <- referenceSeq(x)
-         tmp[i] <- referenceSeq(value)
-         x@referenceSeq <- tmp
+            if(!is.null(ans_refSeq)){
+                if(is(ans_refSeq,"DNAStringSetList")){
+                    if(length(referenceSeq(value)) != length(ans_refSeq)){
+                        stop("DNAStringSetList as 'referenceSeq' must have ",
+                             "the same length to be merged.")
+                    }
+                    ii <- rep(list(i),length(ans_refSeq))
+                    ans_refSeq[ii] <- referenceSeq(value)
+                } else {
+                    ans_refSeq[i] <- referenceSeq(value)
+                }
+                x <- BiocGenerics:::replaceSlots(x, ...,
+                                                 referenceSeq = ans_refSeq,
+                                                 check = FALSE)
+            }
         }
-        callNextMethod()
+
+        S4Vectors:::disableValidity(TRUE)
+        on.exit(S4Vectors:::disableValidity(FALSE))
+        x <- callNextMethod()
+        S4Vectors:::disableValidity(FALSE)
+        validObject(x)
+        x
     }
 )
 
@@ -184,9 +259,16 @@ setMethod("show", signature = c(object = "MicrobiomeExperiment"),
         callNextMethod()
         referenceSeq <- object@referenceSeq
         if(!is.null(referenceSeq)){
-            msg <- sprintf(paste0("referenceSeq: a ", class(referenceSeq),
-                                  " (%s sequences)\n"),
-                           length(referenceSeq))
+            if(is(referenceSeq,"DNAStringSetList")){
+                msg <- sprintf(paste0("referenceSeq: a ", class(referenceSeq),
+                                      " (%s x %s sequences each)\n"),
+                               length(referenceSeq),
+                               unique(lengths(referenceSeq)))
+            } else {
+                msg <- sprintf(paste0("referenceSeq: a ", class(referenceSeq),
+                                      " (%s sequences)\n"),
+                               length(referenceSeq))
+            }
         } else {
             msg <- "referenceSeq: NULL\n"
         }

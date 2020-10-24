@@ -23,6 +23,7 @@ Depends:
     SEtup
 Imports:
     methods,
+    BiocGenerics,
     S4Vectors,
     IRanges,
     SingleCellExperiment,

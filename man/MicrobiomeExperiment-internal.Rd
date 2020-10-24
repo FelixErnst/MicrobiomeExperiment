@@ -3,10 +3,13 @@
 %   R/MicrobiomeExperiment-class.R
 \name{MicrobiomeExperiment-internal}
 \alias{MicrobiomeExperiment-internal}
+\alias{vertical_slot_names,MicrobiomeExperiment-method}
 \alias{[,MicrobiomeExperiment,ANY,ANY,ANY-method}
 \alias{[<-,MicrobiomeExperiment,ANY,ANY,MicrobiomeExperiment-method}
 \title{MicrobiomeExperiment internals}
 \usage{
+\S4method{vertical_slot_names}{MicrobiomeExperiment}(x)
+
 \S4method{[}{MicrobiomeExperiment,ANY,ANY,ANY}(x, i, j, ..., drop = TRUE)
 
 \S4method{[}{MicrobiomeExperiment,ANY,ANY,MicrobiomeExperiment}(x, i, j, ...) <- value
