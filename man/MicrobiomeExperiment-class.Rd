@@ -32,14 +32,16 @@ storing a reference sequence as a
 }
 \examples{
 data(taxa)
-
 sampleNames <- letters[1:4]
 pd <- DataFrame(a=letters[1:4], b=1:4)
 numcounts <- nrow(taxa) * 4
 counts <- matrix(sample(1:1000, numcounts, replace=TRUE),
                  nr = nrow(taxa), nc = 4)
-
-MicrobiomeExperiment(assays = SimpleList(counts = counts),
-                     rowData = taxa,
-                     colData = pd)
+refSeq <- DNAStringSetList(one = DNAStringSet(c("A","A","A","A","A")),
+                           two = DNAStringSet(c("A","A","A","A","A")))
+me <- MicrobiomeExperiment(assays = SimpleList(counts = counts),
+                           rowData = taxa,
+                           colData = pd,
+                           referenceSeq = refSeq)
+me
 }

@@ -8,6 +8,7 @@
 NULL
 
 #' @import methods
+#' @import BiocGenerics
 #' @import S4Vectors
 NULL
 
