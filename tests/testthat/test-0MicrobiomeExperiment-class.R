@@ -14,34 +14,22 @@ test_that("MicrobiomeExperiment-class", {
     expect_error(MicrobiomeExperiment(assays = SimpleList(counts = counts),
                                       rowData = taxa,
                                       colData = pd,
-                                      referenceSeq = refSeq[list(1:5,1:4)]),
-                 paste0("invalid class \"MicrobiomeExperiment\" object: ",
-                        "\n    lengths of 'referenceSeq' must all be equal"))
+                                      referenceSeq = refSeq[list(1:5,1:4)]))
     expect_error(MicrobiomeExperiment(assays = SimpleList(counts = counts),
                                       rowData = taxa,
                                       colData = pd,
-                                      referenceSeq = refSeq[list(1:4,1:4)]),
-                 paste0("invalid class \"MicrobiomeExperiment\" object: ",
-                        "\n    length\\(s\\) of 'referenceSeq' \\(4\\) must"))
+                                      referenceSeq = refSeq[list(1:4,1:4)]))
     expect_error(MicrobiomeExperiment(assays = SimpleList(counts = counts),
                                       rowData = taxa,
                                       colData = pd,
-                                      referenceSeq = refSeq[[1L]][1:4]),
-                 paste0("invalid class \"MicrobiomeExperiment\" object: ",
-                        "\n    length\\(s\\) of 'referenceSeq' \\(4\\) must"))
+                                      referenceSeq = refSeq[[1L]][1:4]))
     me <- MicrobiomeExperiment(assays = SimpleList(counts = counts),
                                rowData = taxa,
                                colData = pd,
                                referenceSeq = refSeq)
-    expect_error(referenceSeq(me) <- refSeq[list(1:5,1:4)],
-                 paste0("invalid class \"MicrobiomeExperiment\" object: ",
-                        "\n    lengths of 'referenceSeq' must all be equal"))
-    expect_error(referenceSeq(me) <- refSeq[list(1:4,1:4)],
-                 paste0("invalid class \"MicrobiomeExperiment\" object: ",
-                        "\n    length\\(s\\) of 'referenceSeq' \\(4\\) must"))
-    expect_error(referenceSeq(me) <- refSeq[[1L]][1:4],
-                 paste0("invalid class \"MicrobiomeExperiment\" object: ",
-                        "\n    length\\(s\\) of 'referenceSeq' \\(4\\) must"))
+    expect_error(referenceSeq(me) <- refSeq[list(1:5,1:4)])
+    expect_error(referenceSeq(me) <- refSeq[list(1:4,1:4)])
+    expect_error(referenceSeq(me) <- refSeq[[1L]][1:4])
     #
     data(soilrep)
     # expect_output(as(as(soilrep,"SummarizedExperiment"),
