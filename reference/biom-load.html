@@ -164,10 +164,9 @@ MicrobiomeExperiment" />
   <span class='co'># load from file</span>
   <span class='va'>rich_dense_file</span>  <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"rich_dense_otu_table.biom"</span>,
                                  package <span class='op'>=</span> <span class='st'>"biomformat"</span><span class='op'>)</span>
-  <span class='fu'>loadFromBiom</span><span class='op'>(</span><span class='va'>rich_dense_file</span><span class='op'>)</span>
+  <span class='va'>me</span> <span class='op'>&lt;-</span> <span class='fu'>loadFromBiom</span><span class='op'>(</span><span class='va'>rich_dense_file</span><span class='op'>)</span>
+
   <span class='co'># load from object</span>
-  <span class='va'>rich_dense_file</span>  <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"rich_dense_otu_table.biom"</span>,
-                                 package <span class='op'>=</span> <span class='st'>"biomformat"</span><span class='op'>)</span>
   <span class='va'>x1</span> <span class='op'>&lt;-</span> <span class='fu'>biomformat</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/biomformat/man/read_biom.html'>read_biom</a></span><span class='op'>(</span><span class='va'>rich_dense_file</span><span class='op'>)</span>
   <span class='va'>me</span> <span class='op'>&lt;-</span> <span class='fu'>makeMicrobiomeExperimentFromBiom</span><span class='op'>(</span><span class='va'>x1</span><span class='op'>)</span>
   <span class='va'>me</span>
@@ -199,7 +198,7 @@ MicrobiomeExperiment" />
 
       <footer>
       <div class="copyright">
-  <p>Developed by Felix G.M. Ernst, Nathan D. Olson.</p>
+  <p>Developed by Felix G.M. Ernst, Nathan D. Olson, Levi Waldron, Marcel Ramos, Héctor Corrada Bravo, Jayaram Kancherla.</p>
 </div>
 
 <div class="pkgdown">
