@@ -13,6 +13,17 @@
 #' @importFrom stringr str_pad
 #'
 #' @export
+#'
+#' @examples
+#' if(requireNamespace("dada2")) {
+#'   fnF <- system.file("extdata", "sam1F.fastq.gz", package="dada2")
+#'   fnR = system.file("extdata", "sam1R.fastq.gz", package="dada2")
+#'   dadaF <- dada2::dada(fnF, selfConsist=TRUE)
+#'   dadaR <- dada2::dada(fnR, selfConsist=TRUE)
+#'
+#'   me <- makeMicrobiomeExperimentFromDADA2(dadaF, fnF, dadaR, fnR)
+#'   me
+#' }
 makeMicrobiomeExperimentFromDADA2 <- function(...) {
     # input checks
     .require_package("dada2")
@@ -31,7 +42,7 @@ makeMicrobiomeExperimentFromDADA2 <- function(...) {
     refseq <- Biostrings::DNAStringSet(rownames(seqtab))
     # construct ME an name rows and cols
     output <- MicrobiomeExperiment(assays = assays,
-                                   refSeq = refseq)
+                                   referenceSeq = refseq)
     colnames(output) <- cName
     rownames(output) <- rName
     output
