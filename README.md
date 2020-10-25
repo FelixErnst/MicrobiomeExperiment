@@ -1,5 +1,13 @@
 # MicrobiomeExperiment
 
+<!-- badges: start -->
+
+[![R-CMD-check-Bioc-devel](https://github.com/FelixErnst/MicrobiomeExperiment/workflows/R-CMD-check-Bioc-devel/badge.svg)](https://github.com/FelixErnst/MicrobiomeExperiment/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/FelixErnst/MicrobiomeExperiment/branch/master/graph/badge.svg)](https://codecov.io/gh/FelixErnst/MicrobiomeExperiment?branch=master)
+
+<!-- badges: end -->
+
 This project is aimed to provide a `SummarizedExperiment` infrastructure
 for microbiome experiment data. It is based on the `TreeSummarizedExperiment`
 package and adds additional functionality from the microbiome analysis world to
