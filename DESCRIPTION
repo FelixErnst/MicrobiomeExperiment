@@ -7,7 +7,11 @@ Authors@R:
              email = "felix.gm.ernst@outlook.com",
              comment = c(ORCID = "0000-0001-5064-0928")),
       person(given = "Nathan D.", family = "Olson", role = c("aut"),
-             email = "nolson@@umiacs.umd.edu"))
+             email = "nolson@@umiacs.umd.edu"),
+      person(given = "Levi", family = "Waldron", role = c("aut")),
+      person(given = "Marcel", family = "Ramos", role = c("aut")),
+      person(given = "Héctor", family = "Corrada Bravo", role = c("aut")),
+      person(given = "Jayaram", family = "Kancherla", role=c("aut")))
 Title: MicrobiomeExperiment
 Description: 
     Infrastructure for working with microbiome data using the backend of the
