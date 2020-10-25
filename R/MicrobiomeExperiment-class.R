@@ -166,9 +166,11 @@ setGeneric("referenceSeq<-", signature = c("x"),
 #' @export
 setReplaceMethod("referenceSeq", signature = c(x = "MicrobiomeExperiment"),
     function(x, value){
-        if(!is(value,"DNAStringSet") &&
-           !is.list(value) &&
-           !is(value,"DNAStringSetList")){
+        if(is.null(value)){
+            value <- value
+        } else if(!is(value,"DNAStringSet") &&
+                  !is.list(value) &&
+                  !is(value,"DNAStringSetList")){
             value <- as(value,"DNAStringSet")
         } else if(!is(value,"DNAStringSetList") &&
                   is.list(value)){
@@ -222,21 +224,28 @@ setReplaceMethod("[", signature = c("MicrobiomeExperiment", "ANY", "ANY", "Micro
             return(value)
         }
 
-        ans_refSeq <- referenceSeq(x)
         if (!missing(i)) {
-            if(!is.null(ans_refSeq)){
-                if(is(ans_refSeq,"DNAStringSetList")){
-                    if(length(referenceSeq(value)) != length(ans_refSeq)){
+            x_refSeq <- referenceSeq(x)
+            value_refSeq <- referenceSeq(value)
+            if((!is.null(x_refSeq) & is.null(value_refSeq)) ||
+               is.null(x_refSeq) & !is.null(value_refSeq) ||
+               !is(x_refSeq, class(value_refSeq))){
+                stop("'x' and 'value' must have the same type of ",
+                     "referenceSeq()", call. = FALSE)
+            }
+            if(!is.null(x_refSeq)){
+                if(is(x_refSeq,"DNAStringSetList")){
+                    if(length(referenceSeq(value)) != length(x_refSeq)){
                         stop("DNAStringSetList as 'referenceSeq' must have ",
-                             "the same length to be merged.")
+                             "the same length to be merged.", call. = FALSE)
                     }
-                    ii <- rep(list(i),length(ans_refSeq))
-                    ans_refSeq[ii] <- referenceSeq(value)
+                    ii <- rep(list(i),length(x_refSeq))
+                    x_refSeq[ii] <- value_refSeq
                 } else {
-                    ans_refSeq[i] <- referenceSeq(value)
+                    x_refSeq[i] <- value_refSeq
                 }
                 x <- BiocGenerics:::replaceSlots(x, ...,
-                                                 referenceSeq = ans_refSeq,
+                                                 referenceSeq = x_refSeq,
                                                  check = FALSE)
             }
         }
