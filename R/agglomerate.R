@@ -9,9 +9,6 @@
 #' @param rank a single character defining a taxonomic rank. Must be a value of
 #'   \code{taxonomicRanks()} function.
 #'
-#' @param ranks a character vector defining taxonomic ranks. All values must be
-#'   values of \code{taxonomicRanks()} function.
-#'
 #' @param onRankOnly \code{TRUE} or \code{FALSE}: Should information only from
 #'   the specified rank used or from ranks equal and above?.
 #'   (default: \code{onRankOnly = FALSE})
