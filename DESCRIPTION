@@ -1,6 +1,6 @@
 Package: MicrobiomeExperiment
 Type: Package
-Version: 0.99.0.9012
+Version: 0.99.0.9013
 Date: 2020-10-25
 Authors@R:
     c(person(given = "Felix G.M.", family = "Ernst", role = c("aut", "cre"),
@@ -58,3 +58,5 @@ Collate:
     'utils.R'
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
+BugReports: https://github.com/FelixErnst/MicrobiomeExperiment/issues
+URL: https://github.com/FelixErnst/MicrobiomeExperiment

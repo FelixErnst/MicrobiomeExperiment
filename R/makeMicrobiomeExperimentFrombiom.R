@@ -17,11 +17,10 @@
 #'   # load from file
 #'   rich_dense_file  = system.file("extdata", "rich_dense_otu_table.biom",
 #'                                  package = "biomformat")
-#'   loadFromBiom(rich_dense_file)
+#'   me <- loadFromBiom(rich_dense_file)
+#'
 #'   # load from object
-#'   rich_dense_file  = system.file("extdata", "rich_dense_otu_table.biom",
-#'                                  package = "biomformat")
-#'   x1 <- read_biom(rich_dense_file)
+#'   x1 <- biomformat::read_biom(rich_dense_file)
 #'   me <- makeMicrobiomeExperimentFromBiom(x1)
 #'   me
 #' }

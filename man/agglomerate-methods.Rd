@@ -4,8 +4,6 @@
 \alias{agglomerate-methods}
 \alias{agglomerateByRank,SummarizedExperiment-method}
 \alias{agglomerateByRank}
-\alias{getAgglomerateData,TreeSummarizedExperiment-method}
-\alias{getAgglomerateData}
 \title{Agglomerate taxa of the same type.}
 \usage{
 \S4method{agglomerateByRank}{SummarizedExperiment}(
@@ -15,13 +13,6 @@
   na.rm = FALSE,
   empty.fields = c(NA, "", " ", "\\t", "-"),
   agglomerateTree = FALSE
-)
-
-\S4method{getAgglomerateData}{TreeSummarizedExperiment}(
-  x,
-  ranks = taxonomyRanks(x)[1:2],
-  empty.fields = c(NA, "", " ", "\\t", "-"),
-  rankThresholds = 0
 )
 }
 \arguments{
@@ -46,12 +37,6 @@ removed if \code{na.rm = TRUE} before agglomeration.}
 \item{agglomerateTree}{\code{TRUE} or \code{FALSE}: should to
 \code{rowTree()} also be agglomerated? (Default:
 \code{agglomerateTree = FALSE})}
-
-\item{ranks}{a character vector defining taxonomic ranks. All values must be
-values of \code{taxonomicRanks()} function.}
-
-\item{rankThresholds}{a single numeric value to define threshold for grouping
-values in "Others".}
 }
 \value{
 A taxonomically-agglomerated, optionally-pruned object of the same

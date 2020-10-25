@@ -1,7 +1,6 @@
 context("MicrobiomeExperiment subset methods")
 
 test_that("Subsetting", {
-    ## TODO: add toy example for testing here
     counts <- matrix(rbinom(20, 5, .5), ncol = 4)
     rowData <- DataFrame()
     expect_error(MicrobiomeExperiment(SimpleList(counts = counts), rowData = rowData))
@@ -27,4 +26,7 @@ test_that("Subsetting", {
     expect_error(me2[c(1,2),] <- me[c(3,4),],
                  paste0("DNAStringSetList as 'referenceSeq' must have the ",
                         "same length to be merged"))
+    referenceSeq(me2) <- NULL
+    expect_error(me2[c(1,2),] <- me[c(3,4),],
+                 "'x' and 'value' must have the same type of referenceSeq")
 })

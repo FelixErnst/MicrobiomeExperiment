@@ -17,3 +17,14 @@ An object of class \code{MicrobiomeExperiment}
 \code{makeMicrobiomeExperimentFromDADA2} is a wrapper for the
 \code{mergePairs} function from the \code{dada2 package}.
 }
+\examples{
+if(requireNamespace("dada2")) {
+  fnF <- system.file("extdata", "sam1F.fastq.gz", package="dada2")
+  fnR = system.file("extdata", "sam1R.fastq.gz", package="dada2")
+  dadaF <- dada2::dada(fnF, selfConsist=TRUE)
+  dadaR <- dada2::dada(fnR, selfConsist=TRUE)
+
+  me <- makeMicrobiomeExperimentFromDADA2(dadaF, fnF, dadaR, fnR)
+  me
+}
+}
