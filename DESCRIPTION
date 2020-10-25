@@ -58,3 +58,5 @@ Collate:
     'utils.R'
 RoxygenNote: 7.1.1
 VignetteBuilder: knitr
+BugReports: https://github.com/FelixErnst/MicrobiomeExperiment/issues
+URL: https://github.com/FelixErnst/MicrobiomeExperiment
