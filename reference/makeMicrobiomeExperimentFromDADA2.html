@@ -73,7 +73,7 @@ mergePairs function from the dada2 package." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MicrobiomeExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0.9013</span>
       </span>
     </div>
 
@@ -105,7 +105,12 @@ mergePairs function from the dada2 package." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/FelixErnst/MicrobiomeExperiment/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -120,7 +125,7 @@ mergePairs function from the dada2 package." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Coerce DADA2 results to <code>MicrobiomeExperiment</code></h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/FelixErnst/MicrobiomeExperiment/blob/master/R/makeMicrobiomeExperimentFromDADA2.R'><code>R/makeMicrobiomeExperimentFromDADA2.R</code></a></small>
     <div class="hidden name"><code>makeMicrobiomeExperimentFromDADA2.Rd</code></div>
     </div>
 
@@ -145,6 +150,42 @@ more details.</p></td>
 
     <p>An object of class <code>MicrobiomeExperiment</code></p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"dada2"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>fnF</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"sam1F.fastq.gz"</span>, package<span class='op'>=</span><span class='st'>"dada2"</span><span class='op'>)</span>
+  <span class='va'>fnR</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"extdata"</span>, <span class='st'>"sam1R.fastq.gz"</span>, package<span class='op'>=</span><span class='st'>"dada2"</span><span class='op'>)</span>
+  <span class='va'>dadaF</span> <span class='op'>&lt;-</span> <span class='fu'>dada2</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/dada2/man/dada.html'>dada</a></span><span class='op'>(</span><span class='va'>fnF</span>, selfConsist<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='va'>dadaR</span> <span class='op'>&lt;-</span> <span class='fu'>dada2</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/dada2/man/dada.html'>dada</a></span><span class='op'>(</span><span class='va'>fnR</span>, selfConsist<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+
+  <span class='va'>me</span> <span class='op'>&lt;-</span> <span class='fu'>makeMicrobiomeExperimentFromDADA2</span><span class='op'>(</span><span class='va'>dadaF</span>, <span class='va'>fnF</span>, <span class='va'>dadaR</span>, <span class='va'>fnR</span><span class='op'>)</span>
+  <span class='va'>me</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required namespace: dada2</span></div><div class='output co'>#&gt; Initializing error rates to maximum possible estimate.
+#&gt; selfConsist step 1 .
+#&gt;    selfConsist step 2
+#&gt;    selfConsist step 3
+#&gt;    selfConsist step 4
+#&gt; Convergence after  4  rounds.
+#&gt; Initializing error rates to maximum possible estimate.
+#&gt; selfConsist step 1 .
+#&gt;    selfConsist step 2
+#&gt;    selfConsist step 3
+#&gt;    selfConsist step 4
+#&gt; Convergence after  4  rounds.</div><div class='output co'>#&gt; class: MicrobiomeExperiment 
+#&gt; dim: 4 1 
+#&gt; metadata(0):
+#&gt; assays(1): counts
+#&gt; rownames(4): ASV01 ASV02 ASV03 ASV04
+#&gt; rowData names(0):
+#&gt; colnames: NULL
+#&gt; colData names(0):
+#&gt; reducedDimNames(0):
+#&gt; altExpNames(0):
+#&gt; rowLinks: NULL
+#&gt; rowTree: NULL
+#&gt; colLinks: NULL
+#&gt; colTree: NULL
+#&gt; referenceSeq: a DNAStringSet (4 sequences)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

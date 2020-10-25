@@ -74,7 +74,7 @@ taxonomicRanks can be used." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MicrobiomeExperiment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0.9012</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0.9013</span>
       </span>
     </div>
 
@@ -106,7 +106,12 @@ taxonomicRanks can be used." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/FelixErnst/MicrobiomeExperiment/">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -121,7 +126,7 @@ taxonomicRanks can be used." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Agglomerate taxa of the same type.</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/FelixErnst/MicrobiomeExperiment/blob/master/R/agglomerate.R'><code>R/agglomerate.R</code></a></small>
     <div class="hidden name"><code>agglomerate-methods.Rd</code></div>
     </div>
 
@@ -139,14 +144,6 @@ to certain taxonomic ranks given as <code>rowData</code>. Only available
   na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
   empty.fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>""</span>, <span class='st'>" "</span>, <span class='st'>"\t"</span>, <span class='st'>"-"</span><span class='op'>)</span>,
   agglomerateTree <span class='op'>=</span> <span class='cn'>FALSE</span>
-<span class='op'>)</span>
-
-<span class='co'># S4 method for TreeSummarizedExperiment</span>
-<span class='fu'>getAgglomerateData</span><span class='op'>(</span>
-  <span class='va'>x</span>,
-  ranks <span class='op'>=</span> <span class='fu'><a href='taxonomy-methods.html'>taxonomyRanks</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>,
-  empty.fields <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='cn'>NA</span>, <span class='st'>""</span>, <span class='st'>" "</span>, <span class='st'>"\t"</span>, <span class='st'>"-"</span><span class='op'>)</span>,
-  rankThresholds <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -185,16 +182,6 @@ removed if <code>na.rm = TRUE</code> before agglomeration.</p></td>
       <td><p><code>TRUE</code> or <code>FALSE</code>: should to
 <code>rowTree()</code> also be agglomerated? (Default:
 <code>agglomerateTree = FALSE</code>)</p></td>
-    </tr>
-    <tr>
-      <th>ranks</th>
-      <td><p>a character vector defining taxonomic ranks. All values must be
-values of <code><a href='taxonomy-methods.html'>taxonomicRanks()</a></code> function.</p></td>
-    </tr>
-    <tr>
-      <th>rankThresholds</th>
-      <td><p>a single numeric value to define threshold for grouping
-values in "Others".</p></td>
     </tr>
     </table>
 
