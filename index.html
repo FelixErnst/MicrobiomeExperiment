@@ -88,34 +88,18 @@
 
 <!-- badges: end -->
 <p>This project is aimed to provide a <code>SummarizedExperiment</code> infrastructure for microbiome experiment data. It is based on the <code>TreeSummarizedExperiment</code> package and adds additional functionality from the microbiome analysis world to the context of working with <code>SummarizedExperiment</code>.</p>
-<p>Currently this includes:</p>
+<p>The <code>MicrobiomeExperiment</code> package currently serves as a wrapper for the project pulling in:</p>
 <ul>
-<li>recognition of taxonomic information in <code>rowData</code>
-</li>
-<li>row and column merging</li>
-<li>agglomeration by taxonomic information (like phyloseq)</li>
+<li>classes from the <a href="https://github.com/fionarhuang/TreeSummarizedExperiment"><code>TreeSummarizedExperiment</code></a> package</li>
+<li>methods for data wrangling from the <a href="https://github.com/FelixErnst/mia"><code>mia</code></a> package</li>
+<li>methods for microbiome data visualization from the <a href="https://github.com/microbiome/miaViz"><code>miaViz</code></a> package</li>
 </ul>
-</div>
-<div id="todo" class="section level1">
-<h1 class="hasAnchor">
-<a href="#todo" class="anchor"></a>ToDo</h1>
-<p>In this package</p>
-<ul>
-<li>~addition of reference sequences slots~</li>
-<li>addition of specialized taxonomic container, if necessary</li>
-<li>…</li>
-</ul>
-<p>In other packages</p>
-<ul>
-<li>alpha and beta diversity measure (Mia)</li>
-<li>plotting functions</li>
-<li>…</li>
-</ul>
+<p>Workflows, which span the whole packages, should end up in <code>MicrobiomeExperiment</code> as individual vignettes.</p>
 </div>
 <div id="contribution" class="section level1">
 <h1 class="hasAnchor">
 <a href="#contribution" class="anchor"></a>Contribution</h1>
-<p>Feel free to contribute.</p>
+<p>Feel free to contribute to the individual packages accordingly or in case of example workflows to <code>MicrobiomeExperiment</code></p>
 <div id="technical-aspects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#technical-aspects" class="anchor"></a>Technical aspects</h2>
