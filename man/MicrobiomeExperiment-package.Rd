@@ -5,8 +5,8 @@
 \alias{MicrobiomeExperiment-package}
 \title{MicrobiomeExperiment Package.}
 \description{
-Package defining MicrobiomeExperiment class and methods
+Wrapper package for Microbiome analysis
 }
 \seealso{
-\link[=MicrobiomeExperiment-class]{MicrobiomeExperiment} class
+\link[TreeSummarizedExperiment:MicrobiomeExperiment-class]{MicrobiomeExperiment} class
 }
