@@ -13,29 +13,20 @@ for microbiome experiment data. It is based on the `TreeSummarizedExperiment`
 package and adds additional functionality from the microbiome analysis world to
 the context of working with `SummarizedExperiment`.
 
-Currently this includes:
+The `MicrobiomeExperiment` package currently serves as a wrapper for the project
+pulling in:
 
-- recognition of taxonomic information in `rowData`
-- row and column merging
-- agglomeration by taxonomic information (like phyloseq)
+- classes from the [`TreeSummarizedExperiment`](https://github.com/fionarhuang/TreeSummarizedExperiment) package
+- methods for data wrangling from the [`mia`](https://github.com/FelixErnst/mia)  package
+- methods for microbiome data visualization from the [`miaViz`](https://github.com/microbiome/miaViz) package
 
-# ToDo
-
-In this package
-
-- ~addition of reference sequences slots~
-- addition of specialized taxonomic container, if necessary
-- ...
-
-In other packages
-
-- alpha and beta diversity measure (Mia)
-- plotting functions
-- ...
+Workflows, which span the whole packages, should end up in `MicrobiomeExperiment`
+as individual vignettes.
 
 # Contribution
 
-Feel free to contribute.
+Feel free to contribute to the individual packages accordingly or in case of 
+example workflows to `MicrobiomeExperiment`
 
 ## Technical aspects
 
